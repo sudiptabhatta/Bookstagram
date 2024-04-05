@@ -2,11 +2,13 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
-from .serializers import SignupSerializer
+from .serializers import SignupSerializer, LogoutSerializer
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .tokens import create_jwt_pair_for_user
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
 
 # Create your views here.
@@ -60,4 +62,24 @@ class LoginView(APIView):
 
 
 
+class LogoutView(APIView):
 
+    serializer_class = LogoutSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request):
+        data = request.data # retrieve data sent by the user 
+
+        print(data)
+
+        serializer = self.serializer_class(data=data) # pass the data to the serializer for validation and further processing
+
+        if serializer.is_valid():
+            refresh = serializer.validated_data['refresh']
+
+            try:
+                RefreshToken(refresh).blacklist()
+            except TokenError as e:
+                return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(status=status.HTTP_204_NO_CONTENT)

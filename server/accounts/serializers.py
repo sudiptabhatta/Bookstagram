@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User
 from rest_framework.validators import ValidationError
 
+
 class SignupSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=80)
     username = serializers.CharField(max_length=45)
@@ -40,3 +41,8 @@ class SignupSerializer(serializers.ModelSerializer):
         user.save()
 
         return user 
+    
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField(required=True)
