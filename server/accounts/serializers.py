@@ -6,12 +6,13 @@ from rest_framework.validators import ValidationError
 class SignupSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=80)
     username = serializers.CharField(max_length=45)
+    fullname = serializers.CharField(max_length=250)
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(style={'input_type': 'password'}, write_only=True) # confirm_password added to the serializer, marked as write_only to prevent it from being included in responses.
 
     class Meta:
         model = User 
-        fields = ['email', 'username', 'password', 'confirm_password', 'profile_picture']
+        fields = ['email', 'username', 'fullname', 'password', 'confirm_password', 'profile_picture']
         # extra_kwargs = {
         # 'password': {'write_only': True}
         # }

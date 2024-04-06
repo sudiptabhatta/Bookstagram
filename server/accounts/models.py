@@ -38,12 +38,13 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     email = models.EmailField(max_length=80, unique=True)
     username = models.CharField(max_length=45)
+    fullname = models.CharField(max_length=250)
     profile_picture = models.ImageField(_("Image"), upload_to='profile_pics', default='profile_pics/default.jpg')
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["username", "fullname"]
 
     def __str__(self) -> str:
         return self.username  
