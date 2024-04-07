@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import BookSerializer
+from .serializers import BookSerializer, CurrentUserBookPhotosSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 
@@ -34,6 +34,19 @@ class BookPhotoUploadView(APIView):
     
 
 
+# current user timeline
+class Timeline(APIView):
+    serializer_class = CurrentUserBookPhotosSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request: Request):
+
+        user = self.request.user 
+
+        serializer = CurrentUserBookPhotosSerializer(instance=user)
+
+        print(serializer.data)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
