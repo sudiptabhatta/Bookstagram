@@ -17,7 +17,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 
-class CurrentUserBookPhotosSerializer(serializers.ModelSerializer):
+class UserBookPhotosSerializer(serializers.ModelSerializer):
 
     books = BookSerializer(many=True, read_only=True)
 
@@ -30,7 +30,7 @@ class CurrentUserBookPhotosSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'profile_picture']
+        fields = ['username', 'fullname', 'profile_picture']
 
 
 class UserBookPhotoDetailSerializer(serializers.ModelSerializer):

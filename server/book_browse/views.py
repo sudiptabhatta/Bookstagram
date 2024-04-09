@@ -3,12 +3,14 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
-from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer
+from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer, UserSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Book
 from django.contrib.auth import get_user_model
+from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
 
 
 User = get_user_model()
@@ -44,7 +46,6 @@ class BookPhotoUploadView(APIView):
 
 class Profile(generics.GenericAPIView, mixins.ListModelMixin):
     serializer_class = UserBookPhotosSerializer
-    users = User.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -96,3 +97,16 @@ class CurrentUserBookPhotoRetrieveUpdateDeleteView(APIView):
         book_photo.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT) 
+    
+
+
+
+class UserSearchView(generics.ListAPIView):
+
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    filter_backends = [SearchFilter]
+    search_fields = ['username', 'fullname'] 
+    pagination_class = PageNumberPagination
+
