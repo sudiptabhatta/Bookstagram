@@ -3,7 +3,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from .serializers import BookSerializer, CurrentUserBookPhotosSerializer
+from .serializers import BookSerializer, CurrentUserBookPhotosSerializer, UserBookPhotoDetailSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
@@ -56,13 +56,14 @@ class Timeline(APIView):
 
 
 class CurrentUserBookPhotoRetrieveUpdateDeleteView(APIView):
-    serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, book_id: int):
         book_photo = get_object_or_404(Book, pk=book_id)
 
-        serializer = self.serializer_class(instance=book_photo)
+        serializer = UserBookPhotoDetailSerializer(instance=book_photo)
+
+        print(serializer.data)
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
@@ -72,7 +73,7 @@ class CurrentUserBookPhotoRetrieveUpdateDeleteView(APIView):
 
         data = request.data 
 
-        serializer = self.serializer_class(instance=book_photo, data=data)
+        serializer = BookSerializer(instance=book_photo, data=data)
 
         if serializer.is_valid():
             serializer.save()

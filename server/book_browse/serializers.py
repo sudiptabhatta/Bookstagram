@@ -24,3 +24,18 @@ class CurrentUserBookPhotosSerializer(serializers.ModelSerializer):
     class Meta:
         model = User 
         fields = ['email', 'username', 'fullname', 'profile_picture', 'books']
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'profile_picture']
+
+
+class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer() # Nesting UserSerializer within BookSerializer
+
+    class Meta:
+        model = Book
+        fields = ['book_id', 'caption', 'description', 'book_image', 'created', 'user']
