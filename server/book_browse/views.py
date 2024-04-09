@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
-from .serializers import BookSerializer, CurrentUserBookPhotosSerializer, UserBookPhotoDetailSerializer
+from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .models import Book
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 
 # Create your views here.
@@ -37,20 +41,19 @@ class BookPhotoUploadView(APIView):
     
 
 
-# current user timeline
-class Timeline(APIView):
-    serializer_class = CurrentUserBookPhotosSerializer
+
+class Profile(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = UserBookPhotosSerializer
+    users = User.objects.all()
     permission_classes = [IsAuthenticated]
 
-    def get(self, request: Request):
+    def get_queryset(self):
+        username = self.kwargs.get('username')
 
-        user = self.request.user 
-
-        serializer = CurrentUserBookPhotosSerializer(instance=user)
-
-        # print(serializer.data)
-
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return User.objects.filter(username=username)
+    
+    def get(self, request: Request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 
