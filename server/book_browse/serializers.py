@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book
+from .models import Book, BookPhotoComment
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -33,9 +33,20 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['username', 'fullname', 'profile_picture']
 
 
+
+class CommentSerializer(serializers.ModelSerializer):
+    comment = serializers.CharField(required=False)
+    comment_user = UserSerializer() # Nesting UserSerializer within CommentSerializer
+
+    class Meta:
+        model = BookPhotoComment
+        fields = ['comment_id', 'comment_user', 'comment', 'created']
+
+
+
 class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer() # Nesting UserSerializer within BookSerializer
 
     class Meta:
         model = Book
-        fields = ['book_id', 'caption', 'description', 'book_image', 'created', 'user']
+        fields = ['user', 'book_id', 'caption', 'description', 'book_image', 'created']

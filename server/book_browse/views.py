@@ -3,11 +3,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
-from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer, UserSerializer
+from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer, UserSerializer, CommentSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import Book
+from .models import Book, BookPhotoComment
 from django.contrib.auth import get_user_model
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
@@ -55,21 +55,30 @@ class Profile(generics.GenericAPIView, mixins.ListModelMixin):
     
     def get(self, request: Request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+    
 
 
-
-
-class CurrentUserBookPhotoRetrieveUpdateDeleteView(APIView):
+class UserBookPhotoRetrieveView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, book_id: int):
         book_photo = get_object_or_404(Book, pk=book_id)
+        comments = BookPhotoComment.objects.filter(book_id=book_photo)
 
-        serializer = UserBookPhotoDetailSerializer(instance=book_photo)
+        bookPhotoSerializer = UserBookPhotoDetailSerializer(instance=book_photo)
+        commentSerializer = CommentSerializer(instance=comments, many=True)
 
-        print(serializer.data)
+        response = {
+            "data": bookPhotoSerializer.data,
+            "bookphoto_comment": commentSerializer.data
+        }
 
-        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=response, status=status.HTTP_200_OK)
+
+
+
+class CurrentUserBookPhotoUpdateDeleteView(APIView):
+    serializer_class = BookSerializer
     
 
     def put(self, request: Request, book_id: int):
@@ -77,7 +86,7 @@ class CurrentUserBookPhotoRetrieveUpdateDeleteView(APIView):
 
         data = request.data 
 
-        serializer = BookSerializer(instance=book_photo, data=data)
+        serializer = self.serializer_class(instance=book_photo, data=data)
 
         if serializer.is_valid():
             serializer.save()
@@ -109,4 +118,37 @@ class UserSearchView(generics.ListAPIView):
     filter_backends = [SearchFilter]
     search_fields = ['username', 'fullname'] 
     pagination_class = PageNumberPagination
+
+
+
+
+class Comment(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request, book_id: int):
+        data = request.data 
+        user = self.request.user 
+        book_photo = get_object_or_404(Book, pk=book_id)
+
+        serializer = self.serializer_class(data=data)
+
+        if serializer.is_valid():
+            serializer.save(user_id=user, book_id=book_photo)
+
+            response = {
+                "comment_user": {
+                    "id": user.id,
+                    "username": user.username,
+                },
+                'comment_data': serializer.data,
+            }
+
+            return Response(data=response, status=status.HTTP_201_CREATED)
+        
+        return Response(data=serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    
+
+
+
 
