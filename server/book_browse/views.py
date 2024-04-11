@@ -11,9 +11,17 @@ from .models import Book, BookPhotoComment
 from django.contrib.auth import get_user_model
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
+from .permissions import IsOwnerOrReadOnly
 
 
 User = get_user_model()
+
+
+class CustomPaginator(PageNumberPagination):
+    page_size = 5
+    page_query_param = "page"
+    page_size_query_param = "page_size"
+
 
 
 # Create your views here.
@@ -79,6 +87,7 @@ class UserBookPhotoRetrieveView(APIView):
 
 class CurrentUserBookPhotoUpdateDeleteView(APIView):
     serializer_class = BookSerializer
+    permission_classes = [IsOwnerOrReadOnly]
     
 
     def put(self, request: Request, book_id: int):
@@ -117,7 +126,7 @@ class UserSearchView(generics.ListAPIView):
     queryset = User.objects.all()
     filter_backends = [SearchFilter]
     search_fields = ['username', 'fullname'] 
-    pagination_class = PageNumberPagination
+    pagination_class = CustomPaginator
 
 
 

@@ -14,8 +14,8 @@ class Book(models.Model):
     book_image = models.ImageField(_("BookImage"), upload_to='book_images')
     created = models.DateTimeField(default=timezone.now)
 
-    # def __str__(self) -> str:
-    #     return '%s - %s' % (self.book_id, self.user.username)
+    def __str__(self) -> str:
+        return '%s - %s' % (self.book_id, self.user.username)
     
     class Meta:
         ordering = ["-created"]
@@ -28,5 +28,5 @@ class BookPhotoComment(models.Model):
     comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
 
-    # def __str__(self) -> str:
-    #     return '%s - %s' % (self.book_id, self.user_id.username)
+    def __str__(self) -> str:
+        return '%s - %s' % (self.book_id, self.user_id.username)
