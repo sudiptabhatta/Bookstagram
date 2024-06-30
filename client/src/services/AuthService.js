@@ -17,7 +17,11 @@ const signupService = async (values) => {
         return response.data  
 
     } catch (error) {
-        throw error
+        if(error.response && error.response.data) {
+            throw new Error(error.response.data.errors[0])
+        } else {
+            throw new Error("Registration failed!")
+        }
     }
 }
 

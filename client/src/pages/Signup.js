@@ -7,9 +7,13 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { userSchema } from '../utils/ValidationSchema';
-import signupService from '../services/AuthService';
+import signupService from '../services/AuthService'; 
+import useToast from '../hooks/useToast';
 
 export default function Signup() {
+
+    const { toastSuccess, toastError } = useToast(); 
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -21,10 +25,11 @@ export default function Signup() {
         onSubmit: async (values, { resetForm }) => {
             try {
                 const response = await signupService(values)
-                console.log(response)
+                toastSuccess(response.message)
                 resetForm({ values: '' })
             } catch(error) {
-                console.log(error.response.data.errors[0])
+                toastError(error.message)
+
             }
         },
         validationSchema: userSchema
