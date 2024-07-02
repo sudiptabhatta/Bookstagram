@@ -79,7 +79,7 @@ export default function Signup() {
                             </Form.Control.Feedback>
                         </Form.Group>
                         <div className='px-5'>
-                            <Button variant="secondary" type="submit" className="w-full py-2 mt-3">Sign In</Button>
+                            <Button variant="secondary" type="submit" className="w-full py-2 mt-3">Sign Up</Button>
                         </div>
                         <div className='mt-3 px-5'>
                             <Link to="/login" className='mt-3 text-stone-500'>I have an account</Link>

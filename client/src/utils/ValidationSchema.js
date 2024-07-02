@@ -6,6 +6,6 @@ export const userSchema = yup.object().shape({
   username: yup.string().min(5, 'Username must be at least 5 characters long').max(20, 'Username must be less than 20 characters long').required('Username is required'),
   password: yup.string().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-  ),
+  ).required('Password is required'),
   confirm_password: yup.string().oneOf([yup.ref('password')], 'Passwords doesn\'t match').required('Pasword confirmation is required'),
 })
