@@ -1,6 +1,6 @@
 import axios from '../config/axiosInstance';
 
-const signupService = async (values) => {
+export const signupService = async (values) => {
     const formData = new FormData();
     formData.append('email', values.email);
     formData.append('fullname', values.fullname);
@@ -25,4 +25,11 @@ const signupService = async (values) => {
     }
 }
 
-export default signupService;
+export const loginService = async (credentials) => {
+    try {
+        const response = await axios.post('/auth/login/', credentials)
+        return response
+    } catch(error) {
+        throw error
+    }
+}

@@ -1,12 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/esm/Container'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import { loginService } from '../services/AuthService';
+import useToast from '../hooks/useToast';
 
 export default function Login() {
+    const [credentials, setCredentials] = useState({email: '', password: ''})
+    const {email, password} = credentials
+
+    const { toastSuccess, toastError } = useToast(); 
+
+    const handleChange = (event) => {
+        setCredentials({...credentials, [event.target.name]: event.target.value});
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        // console.log(credentials)
+        try {
+            const response = await loginService(credentials)
+            console.log(response)
+            toastSuccess(response.data.message)
+        } catch(error) {
+            console.log(error)
+            toastError(error.response.data.message)
+        }
+    }
+
     return (
         <Container className="min-h-screen flex items-center justify-center">
             <Row className='w-full max-w-lg'>
@@ -17,13 +41,13 @@ export default function Login() {
                     <div className="text-center mb-4">
                         <div className="text-sm font-thin">SHOW OFF YOUR BOOKISH ASTHEICS</div>
                     </div>
-                    <Form>
+                    <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3 px-5" controlId="email">
-                            <Form.Control type="email" placeholder="Enter Email" />
+                            <Form.Control type="email" name='email' value={email} placeholder="Enter Email" onChange={handleChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3 px-5" controlId="password">
-                            <Form.Control type="password" placeholder="Enter Password" />
+                            <Form.Control type="password" name='password' value={password} placeholder="Enter Password" onChange={handleChange} />
                         </Form.Group>
                         <div className='px-5'>
                             <Button variant="secondary" type="submit" className="w-full py-2 mt-3">Sign In</Button>

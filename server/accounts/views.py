@@ -58,7 +58,7 @@ class LoginView(APIView):
 
             return Response(data=response, status=status.HTTP_200_OK)
         
-        return Response(data={"message": "Invalid email or password"})
+        return Response(data={"message": "Invalid email or password"}, status=status.HTTP_404_NOT_FOUND)
 
 
 

@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { userSchema } from '../utils/ValidationSchema';
-import signupService from '../services/AuthService'; 
+import { signupService } from '../services/AuthService'; 
 import useToast from '../hooks/useToast';
 
 export default function Signup() {
