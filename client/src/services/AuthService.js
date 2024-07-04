@@ -1,4 +1,4 @@
-import axios from '../config/axiosInstance';
+import axios from '../config/axiosInterceptor';
 
 export const signupService = async (values) => {
     const formData = new FormData();

@@ -4,9 +4,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginService } from '../services/AuthService';
 import useToast from '../hooks/useToast';
+import Cookies from 'js-cookie';
 
 export default function Login() {
     const [credentials, setCredentials] = useState({email: '', password: ''})
@@ -14,20 +15,27 @@ export default function Login() {
 
     const { toastSuccess, toastError } = useToast(); 
 
+    const navigate = useNavigate();
+
     const handleChange = (event) => {
         setCredentials({...credentials, [event.target.name]: event.target.value});
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        // console.log(credentials)
         try {
             const response = await loginService(credentials)
-            console.log(response)
+            const {access, refresh} = response.data.tokens
+
+            // Store the tokens in cookie for later use
+            Cookies.set('accessToken', access)
+            Cookies.set('refreshToken', refresh)
+
             toastSuccess(response.data.message)
+            navigate('/')
         } catch(error) {
-            console.log(error)
             toastError(error.response.data.message)
+            navigate('/login')
         }
     }
 
