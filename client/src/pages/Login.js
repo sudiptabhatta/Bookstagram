@@ -35,7 +35,7 @@ export default function Login() {
             Cookies.set('refreshToken', refresh)
 
             toastSuccess(response.data.message)
-            navigate('/')
+            navigate('/bookbrowse/profile')
         } catch (error) {
             toastError(error.response.data.message)
             navigate('/login')

@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { userSchema } from '../utils/ValidationSchema';
 import { signupService } from '../services/AuthService'; 
@@ -18,6 +18,8 @@ export default function Signup() {
     const passwordToggle = usePasswordVisibility(); // instance of usePasswordVisibility hook for password field
     const confirmPasswordToggle = usePasswordVisibility(); // instance of usePasswordVisibility hook for password field
 
+    const navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -30,10 +32,11 @@ export default function Signup() {
             try {
                 const response = await signupService(values)
                 toastSuccess(response.message)
+                navigate('/login')
                 resetForm({ values: '' })
             } catch(error) {
                 toastError(error.message)
-
+                navigate('/signup')
             }
         },
         validationSchema: userSchema

@@ -1,5 +1,5 @@
 @import 'tailwindcss/tailwind.css';
 
 body {
-  @apply bg-stone-500;
+  @apply bg-amber-50;
 }
