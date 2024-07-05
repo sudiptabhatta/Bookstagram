@@ -9,10 +9,14 @@ import { useFormik } from 'formik';
 import { userSchema } from '../utils/ValidationSchema';
 import { signupService } from '../services/AuthService'; 
 import useToast from '../hooks/useToast';
+import usePasswordVisibility from '../hooks/usePasswordVisibility';
 
 export default function Signup() {
 
     const { toastSuccess, toastError } = useToast(); 
+
+    const passwordToggle = usePasswordVisibility(); // instance of usePasswordVisibility hook for password field
+    const confirmPasswordToggle = usePasswordVisibility(); // instance of usePasswordVisibility hook for password field
 
     const formik = useFormik({
         initialValues: {
@@ -66,14 +70,20 @@ export default function Signup() {
                                 {formik.errors.username}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-3 px-5" controlId="password">
-                            <Form.Control type="password" name="password" value={formik.values.password} placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur} isInvalid={formik.touched.password && !!formik.errors.password} />
+                        <Form.Group className="mb-3 px-5 position-relative" controlId="password">
+                            <Form.Control type={passwordToggle.passwordType} name="password" value={formik.values.password} placeholder="Password" onChange={formik.handleChange} onBlur={formik.handleBlur} isInvalid={formik.touched.password && !!formik.errors.password} />
+                            <span className="absolute right-16 top-2 mr-5 cursor-pointer" onClick={passwordToggle.togglePasswordVisibility}>
+                                {passwordToggle.toggleIcon}
+                            </span>
                             <Form.Control.Feedback type="invalid">
                                 {formik.errors.password}
                             </Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-3 px-5" controlId="confirm_password">
-                            <Form.Control type="password" name='confirm_password' value={formik.values.confirm_password} placeholder="Confirm Password" onChange={formik.handleChange} onBlur={formik.handleBlur} isInvalid={formik.touched.confirm_password && !!formik.errors.confirm_password} />
+                        <Form.Group className="mb-3 px-5 position-relative" controlId="confirm_password">
+                            <Form.Control type={confirmPasswordToggle.passwordType} name='confirm_password' value={formik.values.confirm_password} placeholder="Confirm Password" onChange={formik.handleChange} onBlur={formik.handleBlur} isInvalid={formik.touched.confirm_password && !!formik.errors.confirm_password} />
+                            <span className="absolute right-16 top-2 mr-5 cursor-pointer" onClick={confirmPasswordToggle.togglePasswordVisibility}>
+                                {confirmPasswordToggle.toggleIcon}
+                            </span>
                             <Form.Control.Feedback type="invalid">
                                 {formik.errors.confirm_password}
                             </Form.Control.Feedback>

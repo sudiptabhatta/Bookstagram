@@ -8,24 +8,27 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginService } from '../services/AuthService';
 import useToast from '../hooks/useToast';
 import Cookies from 'js-cookie';
+import usePasswordVisibility from '../hooks/usePasswordVisibility';
 
 export default function Login() {
-    const [credentials, setCredentials] = useState({email: '', password: ''})
-    const {email, password} = credentials
+    const [credentials, setCredentials] = useState({ email: '', password: '' })
+    const { email, password } = credentials
 
-    const { toastSuccess, toastError } = useToast(); 
+    const { toastSuccess, toastError } = useToast();
 
     const navigate = useNavigate();
 
+    const {passwordType, toggleIcon, togglePasswordVisibility} = usePasswordVisibility();
+
     const handleChange = (event) => {
-        setCredentials({...credentials, [event.target.name]: event.target.value});
+        setCredentials({ ...credentials, [event.target.name]: event.target.value });
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
             const response = await loginService(credentials)
-            const {access, refresh} = response.data.tokens
+            const { access, refresh } = response.data.tokens
 
             // Store the tokens in cookie for later use
             Cookies.set('accessToken', access)
@@ -33,7 +36,7 @@ export default function Login() {
 
             toastSuccess(response.data.message)
             navigate('/')
-        } catch(error) {
+        } catch (error) {
             toastError(error.response.data.message)
             navigate('/login')
         }
@@ -54,8 +57,11 @@ export default function Login() {
                             <Form.Control type="email" name='email' value={email} placeholder="Enter Email" onChange={handleChange} />
                         </Form.Group>
 
-                        <Form.Group className="mb-3 px-5" controlId="password">
-                            <Form.Control type="password" name='password' value={password} placeholder="Enter Password" onChange={handleChange} />
+                        <Form.Group className="mb-3 px-5 position-relative" controlId="password">
+                            <Form.Control type={passwordType} name='password' value={password} placeholder="Enter Password" onChange={handleChange} />
+                            <span className="absolute right-16 top-2 cursor-pointer" onClick={togglePasswordVisibility}>
+                                {toggleIcon}
+                            </span>
                         </Form.Group>
                         <div className='px-5'>
                             <Button variant="secondary" type="submit" className="w-full py-2 mt-3">Sign In</Button>
