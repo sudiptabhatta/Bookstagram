@@ -64,7 +64,7 @@ export default function Login() {
                             </span>
                         </Form.Group>
                         <div className='px-5'>
-                            <Button variant="secondary" type="submit" className="w-full py-2 mt-3">Sign In</Button>
+                            <Button variant="dark" type="submit" className="w-full py-2 mt-3">Sign In</Button>
                         </div>
                         <div className='mt-3 px-5'>
                             <Link to="/signup" className='mt-3 text-stone-500'>I'm New</Link>
