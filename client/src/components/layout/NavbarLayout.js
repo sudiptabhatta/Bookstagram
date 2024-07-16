@@ -41,7 +41,7 @@ export default function NavbarLayout() {
                         <NavDropdown.Item href="#">Profile</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.1">Create New Photo</NavDropdown.Item>
                         <Dropdown.Divider />
-                        <NavDropdown.Item href="#action/3.2" onClick={handleLogout}>
+                        <NavDropdown.Item onClick={handleLogout}>
                             Sign Out
                         </NavDropdown.Item>
                     </NavDropdown>

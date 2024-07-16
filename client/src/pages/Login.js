@@ -9,6 +9,7 @@ import { loginService } from '../services/AuthService';
 import useToast from '../hooks/useToast';
 import Cookies from 'js-cookie';
 import usePasswordVisibility from '../hooks/usePasswordVisibility';
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
     const [credentials, setCredentials] = useState({ email: '', password: '' })
@@ -20,6 +21,8 @@ export default function Login() {
 
     const {passwordType, toggleIcon, togglePasswordVisibility} = usePasswordVisibility();
 
+    // const { username } = useParams();
+
     const handleChange = (event) => {
         setCredentials({ ...credentials, [event.target.name]: event.target.value });
     }
@@ -30,12 +33,14 @@ export default function Login() {
             const response = await loginService(credentials)
             const { access, refresh } = response.data.tokens
 
+            const decoded = jwtDecode(access);
+
             // Store the tokens in cookie for later use
             Cookies.set('accessToken', access)
             Cookies.set('refreshToken', refresh)
 
             toastSuccess(response.data.message)
-            navigate('/bookbrowse/profile')
+            navigate(`/bookbrowse/profile/${decoded.username}`)
         } catch (error) {
             toastError(error.response.data.message)
             navigate('/login')

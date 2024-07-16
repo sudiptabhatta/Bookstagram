@@ -9,7 +9,7 @@ from .tokens import create_jwt_pair_for_user
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 class SignupView(APIView):
@@ -37,7 +37,7 @@ class SignupView(APIView):
 
 
 
-class LoginView(APIView):
+class LoginView(TokenObtainPairView):
 
     permission_classes = []
     
@@ -50,7 +50,6 @@ class LoginView(APIView):
         if user is not None:
 
             tokens = create_jwt_pair_for_user(user)
-
             response = {
                 "message": "Login Successful",
                 "tokens": tokens
@@ -83,3 +82,5 @@ class LogoutView(APIView):
                 return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
             return Response(status=status.HTTP_204_NO_CONTENT)
+
+
