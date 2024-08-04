@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-export default function NavbarLayout() {
+export default function NavbarLayout(props) {
 
     const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ export default function NavbarLayout() {
                             <Button className='!bg-rose-500 !border-none'>Search</Button>
                         </Form>
                     </Nav>
-                    <NavDropdown title="Sudipta Bhatta" className='text-white font-bold' id="basic-nav-dropdown">
+                    <NavDropdown title={props.username} className='text-white font-bold' id="basic-nav-dropdown">
                         <NavDropdown.Item href="#">Profile</NavDropdown.Item>
                         <NavDropdown.Item href="#action/3.1">Create New Photo</NavDropdown.Item>
                         <Dropdown.Divider />

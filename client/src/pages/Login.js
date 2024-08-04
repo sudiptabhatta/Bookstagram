@@ -21,8 +21,6 @@ export default function Login() {
 
     const {passwordType, toggleIcon, togglePasswordVisibility} = usePasswordVisibility();
 
-    // const { username } = useParams();
-
     const handleChange = (event) => {
         setCredentials({ ...credentials, [event.target.name]: event.target.value });
     }
