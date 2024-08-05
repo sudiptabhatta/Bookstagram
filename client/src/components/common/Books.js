@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 export default function Books(props) {
 
     return (
-        <Container className='mt-5'>
+        <Container className='my-5'>
             <Row md={3} className="g-4">
                 {props.books.map((book) => {
                     return <Col key={book.book_id}>

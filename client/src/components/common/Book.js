@@ -5,15 +5,8 @@ export default function Book(props) {
     const { book_id, caption, description, book_image, created } = props.book
 
     return (
-
-        <Card>
-            <Card.Img variant="top" src={book_image} />
-            <Card.Body>
-                <Card.Title>{caption}</Card.Title>
-                <Card.Text>
-                    {description}
-                </Card.Text>
-            </Card.Body>
+        <Card style={{ height: '20rem' }}>
+            <Card.Img variant="top" src={book_image} className='h-full w-full' />
         </Card>
     )
 }
