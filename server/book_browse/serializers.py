@@ -29,6 +29,7 @@ class UserBookPhotosSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
         fields = ['username', 'fullname', 'profile_picture']
@@ -55,8 +56,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
-    user = UserSerializer() # Nesting UserSerializer within BookSerializer
-
+    
     class Meta:
         model = Book
         fields = ['user', 'book_id', 'caption', 'description', 'book_image', 'created']

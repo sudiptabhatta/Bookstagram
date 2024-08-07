@@ -23,7 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('auth/', include('accounts.urls')),
     path('bookbrowse/', include('book_browse.urls')),
-]
+] 
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

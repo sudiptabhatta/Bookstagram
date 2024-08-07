@@ -6,14 +6,14 @@ import { BookUploadService } from '../../services/BookUploadService';
 import useToast from '../../hooks/useToast';
 
 
-export default function BookCreate({ show, setShow }) {
+export default function BookCreate({ bookUploadShow, setBookUploadShow }) {
 
     const [book, setBook] = useState({ caption: '', description: '', book_image: '' });
 
     const{ toastSuccess, toastError } = useToast();
 
-    const handleClose = () => {
-        setShow(false)
+    const handleBookUploadClose = () => {
+        setBookUploadShow(false)
         setBook({ caption: '', description: '', book_image: '' })
 
     }
@@ -33,7 +33,7 @@ export default function BookCreate({ show, setShow }) {
         try {
             const response = await BookUploadService(book);
             toastSuccess(response.data.message);
-            handleClose();
+            handleBookUploadClose();
             setBook({ caption: '', description: '', book_image: '' })
         } catch (error) {
             toastError(error.message)
@@ -41,7 +41,7 @@ export default function BookCreate({ show, setShow }) {
     }
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={bookUploadShow} onHide={handleBookUploadClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Upload Book Photo</Modal.Title>
             </Modal.Header>

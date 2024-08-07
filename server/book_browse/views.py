@@ -62,19 +62,21 @@ class Profile(generics.GenericAPIView, mixins.ListModelMixin):
         return User.objects.filter(username=username)
     
     def get(self, request: Request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        res = self.list(request, *args, **kwargs)
+        return res
     
 
 
-class UserBookPhotoRetrieveView(APIView):
+class UserBookPhotoRetrieveView(generics.GenericAPIView, mixins.ListModelMixin):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request: Request, book_id: int):
+    def get(self, request: Request, book_id: int, *args, **kwargs):
         book_photo = get_object_or_404(Book, pk=book_id)
         comments = BookPhotoComment.objects.filter(book_id=book_photo)
         rating = Rating.objects.filter(book_id=book_photo)
 
-        bookPhotoSerializer = UserBookPhotoDetailSerializer(instance=book_photo)
+        bookPhotoSerializer = UserBookPhotoDetailSerializer(instance=book_photo, context={"request": 
+                      request})
         commentSerializer = CommentSerializer(instance=comments, many=True)
         ratingSerializer = RatingSerializer(instance=rating, many=True)
 
@@ -83,7 +85,6 @@ class UserBookPhotoRetrieveView(APIView):
             "bookphoto_comment": commentSerializer.data,
             "bookphoto_rating": ratingSerializer.data
         }
-
         return Response(data=response, status=status.HTTP_200_OK)
 
 

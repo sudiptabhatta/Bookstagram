@@ -12,7 +12,7 @@ import BookCreate from '../common/BookCreate';
 
 export default function NavbarLayout(props) {
 
-    const [show, setShow] = useState(false);
+    const [bookUploadShow, setBookUploadShow] = useState(false);
 
     const navigate = useNavigate();
 
@@ -22,8 +22,8 @@ export default function NavbarLayout(props) {
         navigate('/login')
     }
 
-    const handleShow = () => {
-        setShow(true)
+    const handleBookUploadShow = () => {
+        setBookUploadShow(true)
     }
 
     return (
@@ -46,7 +46,7 @@ export default function NavbarLayout(props) {
                         </Nav>
                         <NavDropdown title={props.username} className='text-white font-bold' id="basic-nav-dropdown">
                             <NavDropdown.Item href="#">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.1" onClick={handleShow}>Create New Photo</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.1" onClick={handleBookUploadShow}>Create New Photo</NavDropdown.Item>
                             <Dropdown.Divider />
                             <NavDropdown.Item onClick={handleLogout}>
                                 Sign Out
@@ -56,7 +56,7 @@ export default function NavbarLayout(props) {
                 </Container>
             </Navbar>
 
-            <BookCreate show={show} setShow={setShow} />
+            <BookCreate bookUploadShow={bookUploadShow} setBookUploadShow={setBookUploadShow} />
         </>
     )
 }
