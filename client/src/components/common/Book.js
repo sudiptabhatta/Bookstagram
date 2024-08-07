@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Card from 'react-bootstrap/Card';
-import BookDetail from './BookDetail';
+import BookDetailModal from './BookDetailModal';
 
 export default function Book(props) {
     const { book_id, book_image } = props.book
@@ -17,7 +17,7 @@ export default function Book(props) {
                 <Card.Img variant="top" src={book_image} className='h-full w-full' />
             </Card>
 
-            <BookDetail book_id={book_id} bookDetailShow={bookDetailShow} setBookDetailShow={setBookDetailShow} />
+            <BookDetailModal book_id={book_id} bookDetailShow={bookDetailShow} setBookDetailShow={setBookDetailShow} />
         </>
     )
 }

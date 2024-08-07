@@ -56,6 +56,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
+    user = UserSerializer() # Nesting UserSerializer within BookSerializer
     
     class Meta:
         model = Book

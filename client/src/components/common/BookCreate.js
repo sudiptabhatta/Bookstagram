@@ -41,7 +41,7 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow }) {
     }
 
     return (
-        <Modal show={bookUploadShow} onHide={handleBookUploadClose}>
+        <Modal show={bookUploadShow} onHide={handleBookUploadClose} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>Upload Book Photo</Modal.Title>
             </Modal.Header>
