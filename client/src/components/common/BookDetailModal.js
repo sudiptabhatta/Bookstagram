@@ -5,6 +5,7 @@ import '../../assets/styles/customScrollbar.css';
 import BookDetailCard from './BookDetailCard';
 import Image from 'react-bootstrap/Image';
 import useToast from '../../hooks/useToast';
+import Comment from './Comment';
 
 export default function BookDetailModal({ bookDetailShow, setBookDetailShow, book_id }) {
 
@@ -41,6 +42,8 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
             </Modal.Header>
             <Modal.Body className='customScrollbar'>
                 <BookDetailCard bookDetail={bookDetail} />
+                <br />
+                <Comment book_id={bookDetail.data.book_id} />
             </Modal.Body>
         </Modal>
     )

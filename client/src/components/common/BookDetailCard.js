@@ -11,7 +11,7 @@ export default function BookDetailCard(props) {
 
     return (
         <>
-            <Card className='!border-0 shadow'>
+            <Card className='!border-0 shadow-sm'>
                 { props.cardHeader && <Card.Header>
                 <div className="flex flex-row gap-3">
                     <div><Image className="w-10 h-10" src={profile_picture} roundedCircle /></div>
