@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/esm/Container';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import NavbarLayout from '../components/layout/NavbarLayout';
+import Comment from '../components/common/Comment';
 
 export default function BookDetailPage() {
 
@@ -41,6 +42,8 @@ export default function BookDetailPage() {
                     <Col md={3}></Col>
                     <Col md={6}>
                         <BookDetailCard bookDetail={bookDetail} cardHeader={cardHeader} />
+                        <br />
+                        <Comment book_id={bookDetail.data.book_id} comment_data={bookDetail.bookphoto_comment} />
                     </Col>
                     <Col md={3}></Col>
                 </Row>
