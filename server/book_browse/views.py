@@ -77,7 +77,8 @@ class UserBookPhotoRetrieveView(generics.GenericAPIView, mixins.ListModelMixin):
 
         bookPhotoSerializer = UserBookPhotoDetailSerializer(instance=book_photo, context={"request": 
                       request})
-        commentSerializer = CommentSerializer(instance=comments, many=True)
+        commentSerializer = CommentSerializer(instance=comments, many=True, context={"request": 
+                      request})
         ratingSerializer = RatingSerializer(instance=rating, many=True)
 
         response = {
@@ -150,16 +151,16 @@ class Comment(APIView):
             serializer.save(comment_user=user, book_id=book_photo)
 
             response = {
-                "comment_user": {
-                    "id": user.id,
-                    "username": user.username,
-                },
+                # "comment_user": {
+                #     "id": user.id,
+                #     "username": user.username,
+                # },
                 'comment_data': serializer.data,
             }
 
             return Response(data=response, status=status.HTTP_201_CREATED)
         
-        return Response(data=serializer.errors, status=status.HTTP_404_NOT_FOUND)
+        return Response(data={"error": "Please write a comment for this book photo."}, status=status.HTTP_404_NOT_FOUND)
     
 
 

@@ -37,12 +37,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    comment = serializers.CharField(required=False)
-    # comment_user = UserSerializer() # Nesting UserSerializer within CommentSerializer
+    comment = serializers.CharField(required=True)
+    comment_user = UserSerializer(required=False) # Nesting UserSerializer within CommentSerializer
 
     class Meta:
         model = BookPhotoComment
-        fields = ['comment_id', 'comment', 'created']
+        fields = ['comment_user', 'comment_id', 'comment', 'created']
 
 
 
@@ -57,7 +57,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer() # Nesting UserSerializer within BookSerializer
-    
+
     class Meta:
         model = Book
         fields = ['user', 'book_id', 'caption', 'description', 'book_image', 'created']

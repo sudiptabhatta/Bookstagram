@@ -43,7 +43,7 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
             <Modal.Body className='customScrollbar'>
                 <BookDetailCard bookDetail={bookDetail} />
                 <br />
-                <Comment book_id={bookDetail.data.book_id} />
+                <Comment book_id={bookDetail.data.book_id} comment_data={bookDetail.bookphoto_comment} />
             </Modal.Body>
         </Modal>
     )
