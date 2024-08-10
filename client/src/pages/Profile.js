@@ -33,7 +33,7 @@ export default function Profile() {
 
   return (
     <div>
-      <NavbarLayout username={user.username} />
+      <NavbarLayout user={user} setUser={setUser} />
       <User user={user} />
       {isLoading && <Container><h6 className='mt-5'>Loading....</h6></Container>}
       {user.books && <Books books={user.books} />}

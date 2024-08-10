@@ -35,7 +35,8 @@ class BookPhotoUploadView(APIView):
         data = request.data 
         user = self.request.user 
 
-        serializer = self.serializer_class(data=data)
+        serializer = self.serializer_class(data=data, context={"request": 
+                      request})
 
         if serializer.is_valid():
             serializer.save(user=user)
@@ -100,7 +101,7 @@ class CurrentUserBookPhotoUpdateDeleteView(APIView):
 
         data = request.data 
 
-        serializer = self.serializer_class(instance=book_photo, data=data)
+        serializer = self.serializer_class(instance=book_photo, data=data, context={'request': request})
 
         if serializer.is_valid():
             serializer.save()

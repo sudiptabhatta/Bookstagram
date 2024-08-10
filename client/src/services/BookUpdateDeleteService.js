@@ -1,13 +1,15 @@
 import axios from '../config/axiosInterceptor';
 
-export const BookUploadService = async (values) => {
+export const bookUpdateService = async (values, book_id) => {
     const formData = new FormData();
     formData.append('caption', values.caption);
     formData.append('description', values.description);
-    formData.append('book_image', values.book_image);
+    if (values.new_book_image != null) {
+        formData.append('book_image', values.new_book_image);
+    }
 
     try {
-        const response = await axios.post('/bookbrowse/photo/upload/', formData, {
+        const response = await axios.put(`/bookbrowse/${book_id}/`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -20,4 +22,4 @@ export const BookUploadService = async (values) => {
             throw new Error('Unknown Exception occurred.')
         }
     }
-}
+} 

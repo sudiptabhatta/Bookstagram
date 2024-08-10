@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import BookCreate from '../common/BookCreate';
+import { Link } from "react-router-dom";
 
 export default function NavbarLayout(props) {
 
@@ -30,7 +31,9 @@ export default function NavbarLayout(props) {
         <>
             <Navbar expand="lg" bg="danger" data-bs-theme="light" sticky='top'>
                 <Container>
-                    <Navbar.Brand href="#" className="!text-red-700 text-xl pt-0 font-bold">Bookstagram<span className='text-3xl text-orange-400'>.</span></Navbar.Brand>
+                    <Navbar.Brand className="text-xl pt-0 font-bold">
+                        <Link to={`/bookbrowse/profile/${props.username}`} className='no-underline text-red-700'>Bookstagram<span className='text-3xl text-orange-400'>.</span></Link>
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -44,9 +47,9 @@ export default function NavbarLayout(props) {
                                 <Button className='!bg-rose-500 !border-none'>Search</Button>
                             </Form>
                         </Nav>
-                        <NavDropdown title={props.username} className='text-white font-bold' id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.1" onClick={handleBookUploadShow}>Create New Photo</NavDropdown.Item>
+                        <NavDropdown title={props.user.username} className='text-white font-bold' id="basic-nav-dropdown">
+                            <NavDropdown.Item><Link to={`/bookbrowse/profile/${props.username}`} className='no-underline text-black'>Profile</Link></NavDropdown.Item>
+                            <NavDropdown.Item onClick={handleBookUploadShow}>Create New Photo</NavDropdown.Item>
                             <Dropdown.Divider />
                             <NavDropdown.Item onClick={handleLogout}>
                                 Sign Out
@@ -56,7 +59,7 @@ export default function NavbarLayout(props) {
                 </Container>
             </Navbar>
 
-            <BookCreate bookUploadShow={bookUploadShow} setBookUploadShow={setBookUploadShow} />
+            <BookCreate bookUploadShow={bookUploadShow} setBookUploadShow={setBookUploadShow} user={props.user} setUser={props.setUser} />
         </>
     )
 }

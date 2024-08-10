@@ -13,7 +13,18 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ['book_id', 'caption', 'description', 'book_image', 'created']
-        extra_kwargs = {'book_image': {'required': True}}
+        # extra_kwargs = {'book_image': {'required': True}}
+
+    # Serializer with Dynamic required Fields
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        request = self.context.get('request')
+
+        if request and request.method == 'POST':
+            self.fields['book_image'].required = True
+        else:
+            self.fields['book_image'].required = False
 
 
 

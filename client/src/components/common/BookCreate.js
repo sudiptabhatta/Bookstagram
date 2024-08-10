@@ -6,7 +6,7 @@ import { BookUploadService } from '../../services/BookUploadService';
 import useToast from '../../hooks/useToast';
 
 
-export default function BookCreate({ bookUploadShow, setBookUploadShow }) {
+export default function BookCreate({ bookUploadShow, setBookUploadShow, user, setUser }) {
 
     const [book, setBook] = useState({ caption: '', description: '', book_image: '' });
 
@@ -33,6 +33,10 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow }) {
         try {
             const response = await BookUploadService(book);
             toastSuccess(response.data.message);
+            // console.log(book)
+            // console.log(user.books)
+            // console.log(response.data.bookphoto)
+            setUser({...user, books: [response.data.bookphoto, ...user.books]})
             handleBookUploadClose();
             setBook({ caption: '', description: '', book_image: '' })
         } catch (error) {
