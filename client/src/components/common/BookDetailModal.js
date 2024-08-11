@@ -9,6 +9,7 @@ import Comment from './Comment';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import BookDelete from '../../pages/BookDelete';
 import BookUpdate from '../../pages/BookUpdate';
 
 export default function BookDetailModal({ bookDetailShow, setBookDetailShow, book_id, setUser }) {
@@ -16,6 +17,7 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
     const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', new_book_image: null, created: '' }, bookphoto_comment: [], bookphoto_rating: [] });
 
     const [bookUpdateShow, setBookUpdateShow] = useState(false);
+    const [bookDeleteShow, setBookDeleteShow] = useState(false);
 
     const { toastError } = useToast();
 
@@ -25,6 +27,10 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
 
     const handleBookUpdateShow = () => {
         setBookUpdateShow(true);
+    }
+
+    const handleBookDeleteShow = () => {
+        setBookDeleteShow(true);
     }
 
     const fetchBookDetailData = async () => {
@@ -60,7 +66,7 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
                                             </div>
                                         </Dropdown.Item>
                                         <Dropdown.Item>
-                                            <div className='flex flex-row gap-2 items-center'>
+                                            <div className='flex flex-row gap-2 items-center' onClick={handleBookDeleteShow}>
                                                 <div><MdDelete /></div>
                                                 <div>Delete</div>
                                             </div>
@@ -79,6 +85,7 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
             </Modal>
 
             <BookUpdate bookUpdateShow={bookUpdateShow} setBookUpdateShow={setBookUpdateShow} bookDetail={bookDetail} setBookDetail={setBookDetail} setUser={setUser} />
+            <BookDelete book_id={book_id} setUser={setUser} bookDeleteShow={bookDeleteShow} setBookDeleteShow={setBookDeleteShow} />
         </>
     )
 }

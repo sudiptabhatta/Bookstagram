@@ -23,3 +23,13 @@ export const bookUpdateService = async (values, book_id) => {
         }
     }
 } 
+
+
+export const bookDeleteService = async (book_id) => {
+    try {
+        const response = await axios.delete(`/bookbrowse/${book_id}`);
+        return response 
+    } catch(error) {
+        throw new Error('Unknown Exception occurred.')
+    }
+}
