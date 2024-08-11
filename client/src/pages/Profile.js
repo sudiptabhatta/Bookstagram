@@ -36,7 +36,7 @@ export default function Profile() {
       <NavbarLayout user={user} setUser={setUser} />
       <User user={user} />
       {isLoading && <Container><h6 className='mt-5'>Loading....</h6></Container>}
-      {user.books && <Books books={user.books} />}
+      {user.books && <Books books={user.books} setUser={setUser} />}
     </div>
   )
 }

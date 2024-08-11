@@ -15,9 +15,11 @@ export default function Book(props) {
         <>
             <Card style={{ height: '22rem', width: '22rem' }} onClick={handleBookDetailShow}>
                 <Card.Img variant="top" src={book_image} className='h-full w-full' />
+                {/* <Card.Img variant="top" src={props.book.book_image} className='h-full w-full' /> */}
             </Card>
 
-            <BookDetailModal book_id={book_id} bookDetailShow={bookDetailShow} setBookDetailShow={setBookDetailShow} />
+            <BookDetailModal book_id={book_id} bookDetailShow={bookDetailShow} setBookDetailShow={setBookDetailShow} setUser={props.setUser} />
+            {/* <BookDetailModal book={props.book} bookDetailShow={bookDetailShow} setBookDetailShow={setBookDetailShow} /> */}
         </>
     )
 }

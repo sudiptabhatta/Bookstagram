@@ -22,7 +22,6 @@ export default function BookDetailPage() {
     const fetchBookDetailData = async () => {
         try {
             const response = await BookDetailService(params.book_id);
-            console.log(response.data)
             setBookDetail(response.data)
         } catch (error) {
             toastError(error.message)

@@ -11,7 +11,7 @@ export default function Books(props) {
             <Row md={3} className="g-4">
                 {props.books.map((book) => {
                     return <Col key={book.book_id}>
-                        <Book book={book} />
+                        <Book book={book} setUser={props.setUser} />
                     </Col>
                 })}
             </Row>

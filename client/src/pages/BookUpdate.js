@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image';
 import useToast from '../hooks/useToast';
 import { bookUpdateService } from '../services/BookUpdateDeleteService';
 
-export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDetail, setBookDetail }) {
+export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDetail, setBookDetail, setUser }) {
 
     const handleBookUpdateClose = () => {
         setBookUpdateShow(false);
@@ -28,6 +28,19 @@ export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDeta
         event.preventDefault()
         try {
             const response = await bookUpdateService(bookDetail.data, bookDetail.data.book_id);
+            // console.log(response)
+            // console.log(bookDetail)
+            setBookDetail({...bookDetail, data: {...bookDetail.data, book_image: response.data.bookphoto.book_image}})
+            setUser((prevUser) => {
+                const newBooks = prevUser.books.map(book => {
+                    if(book.book_id === response.data.bookphoto.book_id){
+                        return {...book, ...response.data.bookphoto}
+                    }
+                    return book
+                })
+                // u have new Books
+                return {...prevUser, books: newBooks}
+            })
             toastSuccess(response.data.message);
             handleBookUpdateClose();
         } catch (error) {
