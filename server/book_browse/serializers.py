@@ -32,11 +32,15 @@ class BookSerializer(serializers.ModelSerializer):
 class UserBookPhotosSerializer(serializers.ModelSerializer):
 
     books = BookSerializer(many=True, read_only=True)
+    book_count = serializers.SerializerMethodField()
+
 
     class Meta:
         model = User 
-        fields = ['email', 'username', 'fullname', 'profile_picture', 'books']
+        fields = ['email', 'username', 'fullname', 'profile_picture', 'books', 'book_count']
 
+    def get_book_count(self, obj):
+        return obj.books.count()
 
 
 class UserSerializer(serializers.ModelSerializer):

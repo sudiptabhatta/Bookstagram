@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 
 export default function User(props) {
 
-  const { email, fullname, profile_picture } = props.user
+  const { email, fullname, profile_picture, book_count } = props.user
 
 
   return (
@@ -15,7 +15,7 @@ export default function User(props) {
           <Card.Img src={profile_picture} className="rounded-circle h-32 w-32 object-cover" alt="Profile image" style={{ width: '128px', height: '128px' }} />
           <div className="ml-8">
             <div className="flex flex-row gap-x-8 my-3">
-              <Card.Text><b>0</b> Posts</Card.Text>
+              <Card.Text><b>{book_count}</b> Posts</Card.Text>
               <Card.Text><b>0</b> Followers</Card.Text>
               <Card.Text><b>0</b> Following</Card.Text>
             </div>

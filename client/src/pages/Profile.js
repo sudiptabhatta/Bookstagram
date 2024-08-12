@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/esm/Container';
 
 export default function Profile() {
 
-  const [user, setUser] = useState({ email: '', username: '', fullname: '', profile_picture: '', books: [] });
+  const [user, setUser] = useState({ email: '', username: '', fullname: '', profile_picture: '', books: [], book_count: 0 });
   const [isLoading, setLoading] = useState(true);
 
   const { toastError } = useToast();

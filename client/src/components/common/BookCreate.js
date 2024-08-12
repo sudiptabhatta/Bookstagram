@@ -36,7 +36,12 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
             // console.log(book)
             // console.log(user.books)
             // console.log(response.data.bookphoto)
-            setUser({...user, books: [response.data.bookphoto, ...user.books]})
+            // setUser(prevUser => ({
+            //     ...prevUser,
+            //     books: [response.data.bookphoto, ...prevUser.books],
+            //     book_count: prevUser.book_count + 1 // Increment the book count
+            // }));
+            setUser({...user, books: [response.data.bookphoto, ...user.books], book_count: user.book_count + 1})
             handleBookUploadClose();
             setBook({ caption: '', description: '', book_image: '' })
         } catch (error) {
