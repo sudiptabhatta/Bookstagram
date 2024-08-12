@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { BookUploadService } from '../../services/BookUploadService';
 import useToast from '../../hooks/useToast';
+import Editor from 'react-simple-wysiwyg';
 
 
 export default function BookCreate({ bookUploadShow, setBookUploadShow, user, setUser }) {
@@ -62,7 +63,8 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="description">
                         <Form.Label className='font-semibold'>Description</Form.Label>
-                        <Form.Control as="textarea" rows={3} name='description' value={book.description} onChange={handleChange} />
+                        <Editor name='description' value={book.description} onChange={handleChange} />
+                        {/* <Form.Control as="textarea" rows={3} name='description' value={book.description} onChange={handleChange} /> */}
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label className='font-semibold'>Book Browse</Form.Label>

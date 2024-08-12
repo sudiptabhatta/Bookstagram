@@ -5,9 +5,15 @@ import Image from 'react-bootstrap/Image';
 
 export default function BookDetailCard(props) {
 
+
     const { caption, description, book_image, created } = props.bookDetail.data
 
     const { username, profile_picture } = props.bookDetail.data.user
+
+    // const stripHtml = (html) => {
+    //     const doc = new DOMParser().parseFromString(html, 'text/html');
+    //     return doc.body.textContent || "";
+    // };
 
     return (
         <>
@@ -22,7 +28,8 @@ export default function BookDetailCard(props) {
                 <Card.Body>
                     <Card.Title>{caption}</Card.Title>
                     <Card.Text>
-                        {description}
+                        <div dangerouslySetInnerHTML={{ __html: description }} />
+                        {/* {} */}
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer>

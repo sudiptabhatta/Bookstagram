@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Image from 'react-bootstrap/Image';
 import useToast from '../hooks/useToast';
 import { bookUpdateService } from '../services/BookUpdateDeleteService';
+import Editor from 'react-simple-wysiwyg';
 
 export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDetail, setBookDetail, setUser }) {
 
@@ -61,7 +62,8 @@ export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDeta
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="description">
                         <Form.Label className='font-semibold'>Description</Form.Label>
-                        <Form.Control as="textarea" rows={3} name='description' value={bookDetail.data.description} onChange={handleChange} />
+                        <Editor name='description' value={bookDetail.data.description} onChange={handleChange}/>
+                        {/* <Form.Control as="textarea" rows={3} name='description' value={bookDetail.data.description} onChange={handleChange} /> */}
                     </Form.Group>
                     <Form.Group controlId="formFile" className="mb-3">
                         <div className='flex flex-row gap-3'>

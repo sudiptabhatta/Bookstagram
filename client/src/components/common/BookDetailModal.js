@@ -15,6 +15,7 @@ import BookUpdate from '../../pages/BookUpdate';
 export default function BookDetailModal({ bookDetailShow, setBookDetailShow, book_id, setUser }) {
 
     const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', new_book_image: null, created: '' }, bookphoto_comment: [], bookphoto_rating: [] });
+    
 
     const [bookUpdateShow, setBookUpdateShow] = useState(false);
     const [bookDeleteShow, setBookDeleteShow] = useState(false);

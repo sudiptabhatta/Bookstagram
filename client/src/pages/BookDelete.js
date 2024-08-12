@@ -14,7 +14,7 @@ export default function BookDelete({ bookDeleteShow, setBookDeleteShow, book_id,
             const response = await bookDeleteService(book_id)
             setUser((prevUser) => {
                 const  filteredBookList = prevUser.books.filter((book) => book.book_id !== book_id)
-                return {...prevUser, books: filteredBookList}
+                return {...prevUser, books: filteredBookList, book_count: prevUser.book_count - 1}
             })
             handleDeleteClose();
         } catch(error) {
