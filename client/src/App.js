@@ -6,6 +6,7 @@ import './App.css';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Anonymous from './components/common/Anonymous';
 import BookDetailPage from './pages/BookDetailPage';
+import UserSearch from './pages/UserSearch';
 
 const Login = lazy(() => import('./pages/Login'));
 const Signup = lazy(() => import('./pages/Signup'));
@@ -28,6 +29,7 @@ export default function App() {
             <Route path='/bookbrowse/profile/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='*' element={<ProtectedRoute><Error /></ProtectedRoute>} />
             <Route path='/bookbrowse/b/:book_id' element={<ProtectedRoute><BookDetailPage /></ProtectedRoute>} />
+            <Route path='/bookbrowse/users' element={<ProtectedRoute><UserSearch /></ProtectedRoute>} />
             </Route>
           </Routes>
         </Suspense>

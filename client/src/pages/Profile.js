@@ -19,7 +19,7 @@ export default function Profile() {
     const fetchUserData = async () => {
       try {
         const accessToken = Cookies.get('accessToken')
-        const decoded = jwtDecode(accessToken)
+        const decoded = jwtDecode(accessToken);
         const response = await userBooklistProfileService(decoded.username)
         setUser(response)
         setLoading(false)

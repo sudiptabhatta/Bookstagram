@@ -2,12 +2,15 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { bookDeleteService } from '../services/BookUpdateDeleteService';
+import useToast from '../hooks/useToast';
 
 export default function BookDelete({ bookDeleteShow, setBookDeleteShow, book_id, setUser }) {
 
     const handleDeleteClose = () => {
         setBookDeleteShow(false);
     }
+
+    const { toastError } = useToast();
 
     const handleDeletePhoto = async () => {
         try {
@@ -18,7 +21,7 @@ export default function BookDelete({ bookDeleteShow, setBookDeleteShow, book_id,
             })
             handleDeleteClose();
         } catch(error) {
-            console.log(error)
+           toastError(error)
         }
     }
 

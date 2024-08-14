@@ -35,7 +35,7 @@ export default function BookDetailPage() {
 
     return (
         <>
-            <NavbarLayout username={bookDetail.data.user.username} />
+            <NavbarLayout />
             <Container className='my-10'>
                 <Row>
                     <Col md={3}></Col>
