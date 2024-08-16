@@ -17,10 +17,10 @@ from .permissions import IsOwnerOrReadOnly
 User = get_user_model()
 
 
-class CustomPaginator(PageNumberPagination):
-    page_size = 5
-    page_query_param = "page"
-    page_size_query_param = "page_size"
+# class CustomPaginator(PageNumberPagination):
+#     page_size = 2
+#     page_query_param = "page"
+#     page_size_query_param = "page_size"
 
 
 
@@ -132,7 +132,7 @@ class UserSearchView(generics.ListAPIView):
     queryset = User.objects.all()
     filter_backends = [SearchFilter]
     search_fields = ['username', 'fullname'] 
-    pagination_class = CustomPaginator
+    # pagination_class = CustomPaginator
 
 
 

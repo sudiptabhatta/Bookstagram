@@ -1,8 +1,15 @@
 from rest_framework import serializers
 from .models import Book, BookPhotoComment, Rating
 from django.contrib.auth import get_user_model
+from rest_framework.pagination import PageNumberPagination
 
 User = get_user_model()
+
+
+class CustomPaginator(PageNumberPagination):
+    page_size = 6
+    page_query_param = "page"
+    page_size_query_param = "page_size"
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -31,7 +38,8 @@ class BookSerializer(serializers.ModelSerializer):
 
 class UserBookPhotosSerializer(serializers.ModelSerializer):
 
-    books = BookSerializer(many=True, read_only=True)
+    # books = BookSerializer(many=True, read_only=True)
+    books = serializers.SerializerMethodField()
     book_count = serializers.SerializerMethodField()
 
 
@@ -41,6 +49,16 @@ class UserBookPhotosSerializer(serializers.ModelSerializer):
 
     def get_book_count(self, obj):
         return obj.books.count()
+
+    # for pagination
+    def get_books(self, obj):
+        request = self.context.get('request')
+        paginator = CustomPaginator()
+        books = obj.books.all()
+        paginated_books = paginator.paginate_queryset(books, request)
+        serializer = BookSerializer(paginated_books, many=True, read_only=True, context={'request': request})
+        return serializer.data
+
 
 
 class UserSerializer(serializers.ModelSerializer):
