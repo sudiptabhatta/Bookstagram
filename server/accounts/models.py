@@ -37,7 +37,7 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(max_length=80, unique=True)
-    username = models.CharField(max_length=45)
+    username = models.CharField(max_length=45, unique=True)
     fullname = models.CharField(max_length=250)
     profile_picture = models.ImageField(_("Image"), upload_to='profile_pics', default='profile_pics/default.jpg')
 

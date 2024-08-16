@@ -18,10 +18,10 @@ export default function NavbarLayout(props) {
 
     const [bookUploadShow, setBookUploadShow] = useState(false);
 
-    const [ searchParam, setSearchParam ] = useState(''); 
-    const [searchResult, setSearchResult] = useState({count: 0, next: null, previous: null, results: []});
+    const [searchParam, setSearchParam] = useState('');
+    const [searchResult, setSearchResult] = useState({ count: 0, next: null, previous: null, results: [] });
 
-    let [ loggedinUsername, setLoggedinUsername ] = useState("");
+    let [loggedinUsername, setLoggedinUsername] = useState("");
 
     const navigate = useNavigate();
 
@@ -48,10 +48,14 @@ export default function NavbarLayout(props) {
             const response = await UserSearchService(searchParam);
             setSearchResult(response.data);
             // second one is an object with a state property
-            navigate(`/bookbrowse/users?search=${searchParam}`, {state: {searchResult: response.data}});
-        } catch(error) {
+            navigate(`/bookbrowse/users?search=${searchParam}`, { state: { searchResult: response.data } });
+        } catch (error) {
             toastError(error)
         }
+    }
+
+    const handleProfileNavigation = () => {
+        navigate(`/bookbrowse/profile/${loggedinUsername}`)
     }
 
     useEffect(() => {
@@ -65,7 +69,7 @@ export default function NavbarLayout(props) {
             <Navbar expand="lg" bg="danger" data-bs-theme="light" sticky='top'>
                 <Container>
                     <Navbar.Brand className="text-xl pt-0 font-bold">
-                        <Link to={`/bookbrowse/profile/${props.username}`} className='no-underline text-red-700'>Bookstagram<span className='text-3xl text-orange-400'>.</span></Link>
+                        <Link to={`/bookbrowse/profile/${loggedinUsername}`} className='no-underline text-red-700'>Bookstagram<span className='text-3xl text-orange-400'>.</span></Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -83,7 +87,7 @@ export default function NavbarLayout(props) {
                             </Form>
                         </Nav>
                         <NavDropdown title={loggedinUsername} className='text-white font-bold' id="basic-nav-dropdown">
-                            <NavDropdown.Item><Link to={`/bookbrowse/profile/${props.username}`} className='no-underline text-black'>Profile</Link></NavDropdown.Item>
+                            <NavDropdown.Item className='no-underline text-black font-normal pl-2' onClick={handleProfileNavigation}>Profile</NavDropdown.Item>
                             <NavDropdown.Item onClick={handleBookUploadShow}>Create New Photo</NavDropdown.Item>
                             <Dropdown.Divider />
                             <NavDropdown.Item onClick={handleLogout}>

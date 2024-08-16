@@ -10,7 +10,7 @@ export default function User(props) {
 
   return (
     <Container className="mt-5">
-      <Card className='!shadow-lg !shadow-slate-300'>
+      <Card className='!shadow-sm'>
         <Card.Body className="flex items-center justify-center">
           <Card.Img src={profile_picture} className="rounded-circle h-32 w-32 object-cover" alt="Profile image" style={{ width: '128px', height: '128px' }} />
           <div className="ml-8">

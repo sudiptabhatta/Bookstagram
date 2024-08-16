@@ -20,9 +20,13 @@ class SignupSerializer(serializers.ModelSerializer):
     
     def validate(self, attrs):
         email_exists = User.objects.filter(email=attrs['email']).exists()
+        username_exists = User.objects.filter(username=attrs['username']).exists()
 
         if email_exists:
             raise ValidationError('Email has already been used.')
+        
+        if username_exists:
+            raise ValidationError('Username has already been used.')
 
         if attrs['password'] != attrs['confirm_password']:
             raise ValidationError("Passwords do not match.")

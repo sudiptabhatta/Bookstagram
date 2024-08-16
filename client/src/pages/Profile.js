@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import NavbarLayout from '../components/layout/NavbarLayout'
-import User from '../components/common/User'
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
+import NavbarLayout from '../components/layout/NavbarLayout';
+import User from '../components/common/User';
 import { userBooklistProfileService } from '../services/BooklistProfileService';
 import Books from '../components/common/Books';
 import useToast from '../hooks/useToast';
 import Container from 'react-bootstrap/esm/Container';
+import { useParams } from 'react-router';
 
 export default function Profile() {
 
   const [user, setUser] = useState({ email: '', username: '', fullname: '', profile_picture: '', books: [], book_count: 0 });
   const [isLoading, setLoading] = useState(true);
 
+  const { username } = useParams();
+
   const { toastError } = useToast();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const accessToken = Cookies.get('accessToken')
-        const decoded = jwtDecode(accessToken);
-        const response = await userBooklistProfileService(decoded.username)
+        const response = await userBooklistProfileService(username)
         setUser(response)
         setLoading(false)
       } catch (error) {
@@ -29,7 +28,7 @@ export default function Profile() {
       }
     }
     fetchUserData()
-  }, [])
+  }, [username])
 
   return (
     <div>
