@@ -29,7 +29,6 @@ export default function BookDetailCard(props) {
                     <Card.Title>{caption}</Card.Title>
                     <Card.Text>
                         <div dangerouslySetInnerHTML={{ __html: description }} />
-                        {/* {} */}
                     </Card.Text>
                 </Card.Body>
                 <Card.Footer>

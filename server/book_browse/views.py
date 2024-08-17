@@ -10,18 +10,10 @@ from django.shortcuts import get_object_or_404
 from .models import Book, BookPhotoComment, Rating
 from django.contrib.auth import get_user_model
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination
 from .permissions import IsOwnerOrReadOnly
 
 
 User = get_user_model()
-
-
-# class CustomPaginator(PageNumberPagination):
-#     page_size = 2
-#     page_query_param = "page"
-#     page_size_query_param = "page_size"
-
 
 
 # Create your views here.
@@ -132,8 +124,17 @@ class UserSearchView(generics.ListAPIView):
     queryset = User.objects.all()
     filter_backends = [SearchFilter]
     search_fields = ['username', 'fullname'] 
-    # pagination_class = CustomPaginator
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        
+        response_data = {
+            'count': queryset.count(),
+            'results': serializer.data
+        }
+        
+        return Response(response_data)
 
 
 

@@ -11,14 +11,17 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import BookDelete from '../../pages/BookDelete';
 import BookUpdate from '../../pages/BookUpdate';
+import { useNavigate } from 'react-router';
+import { RiPagesLine } from "react-icons/ri";
 
 export default function BookDetailModal({ bookDetailShow, setBookDetailShow, book_id, setUser }) {
 
     const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', new_book_image: null, created: '' }, bookphoto_comment: [], bookphoto_rating: [] });
-    
 
     const [bookUpdateShow, setBookUpdateShow] = useState(false);
     const [bookDeleteShow, setBookDeleteShow] = useState(false);
+
+    const navigate = useNavigate();
 
     const { toastError } = useToast();
 
@@ -32,6 +35,10 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
 
     const handleBookDeleteShow = () => {
         setBookDeleteShow(true);
+    }
+
+    const handleBookPageVisit = (book_id) => {
+        navigate(`/bookbrowse/b/${book_id}`)
     }
 
     const fetchBookDetailData = async () => {
@@ -52,14 +59,19 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
             <Modal show={bookDetailShow} onHide={handleBookUploadClose} scrollable={true} backdrop="static">
                 <Modal.Header closeButton className='pb-2'>
                     <Modal.Title className='mt-2'>
-                        <div className="flex flex-row gap-3">
-                            <div><Image className="w-10 h-10" src={bookDetail.data.user.profile_picture} roundedCircle /></div>
+                        <div className="flex flex-row">
+                            <div><Image className="w-10 h-10 mr-6" src={bookDetail.data.user.profile_picture} roundedCircle /></div>
                             <div><p className='text-base mt-2'>{bookDetail.data.user.username}</p></div>
                             <div>
                                 <Dropdown>
-                                    <Dropdown.Toggle variant="dark" id="dropdown-basic" size='sm' className='ml-64'></Dropdown.Toggle>
-
+                                    <Dropdown.Toggle className='ml-64' variant="dark" id="dropdown-basic" size='sm'></Dropdown.Toggle>
                                     <Dropdown.Menu>
+                                        <Dropdown.Item onClick={() => handleBookPageVisit(bookDetail.data.book_id)}>
+                                            <div className='flex flex-row gap-2 items-center'>
+                                                <div> <RiPagesLine /></div>
+                                                <div>Go to Page</div>
+                                            </div>
+                                        </Dropdown.Item>
                                         <Dropdown.Item onClick={handleBookUpdateShow}>
                                             <div className='flex flex-row gap-2 items-center'>
                                                 <div> <MdEdit /></div>

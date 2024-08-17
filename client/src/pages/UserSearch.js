@@ -12,7 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 export default function UserSearch() {
 
     const { state } = useLocation();
-    const { count, next, previous, results } = state.searchResult;
+    const { count, results } = state.searchResult;
 
     const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ export default function UserSearch() {
                     results.map((user, index) => (
                         <Row key={index}>
                             <Col md={3}></Col>
-                            <Col md={6} className="mb-3"> {/* Make each card occupy the full width */}
+                            <Col md={6} className="mb-3"> 
                                 <Card className="shadow-sm">
                                     <Card.Body className="flex flex-row items-center gap-3">
                                         <Image className="w-16 h-16 rounded-full" src={user.profile_picture} alt="User Profile" />

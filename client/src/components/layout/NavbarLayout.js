@@ -19,7 +19,7 @@ export default function NavbarLayout(props) {
     const [bookUploadShow, setBookUploadShow] = useState(false);
 
     const [searchParam, setSearchParam] = useState('');
-    const [searchResult, setSearchResult] = useState({ count: 0, next: null, previous: null, results: [] });
+    const [searchResult, setSearchResult] = useState({ count: 0, results: [] });
 
     let [loggedinUsername, setLoggedinUsername] = useState("");
 
