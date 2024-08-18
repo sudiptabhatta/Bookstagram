@@ -11,7 +11,7 @@ import { useParams } from 'react-router';
 
 export default function Profile() {
 
-  const [user, setUser] = useState({ email: '', username: '', fullname: '', profile_picture: '', books: [], book_count: 0 });
+  const [user, setUser] = useState({ email: '', username: '', fullname: '', profile_picture: '', new_profile_picture: null, books: [], book_count: 0 });
   const [isLoading, setLoading] = useState(true);
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,7 +54,7 @@ export default function Profile() {
   return (
     <div>
       <NavbarLayout user={user} setUser={setUser} />
-      <User user={user} />
+      <User user={user} setUser={setUser} />
       {user.books && <Books books={user.books} setUser={setUser} />}
       <>
         <Container>

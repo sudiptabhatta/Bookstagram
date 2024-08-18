@@ -89,8 +89,7 @@ class CurrentUserBookPhotoUpdateDeleteView(APIView):
     
 
     def put(self, request: Request, book_id: int):
-        book_photo = get_object_or_404(Book, pk=book_id) 
-
+        book_photo = get_object_or_404(Book, pk=book_id)
         data = request.data 
 
         serializer = self.serializer_class(instance=book_photo, data=data, context={'request': request})
@@ -114,6 +113,45 @@ class CurrentUserBookPhotoUpdateDeleteView(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT) 
     
+
+class UserProfilePictureUpdateDeleteView(APIView):
+    serializer_class = UserSerializer
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsOwnerOrReadOnly]
+
+    def put(self, request: Request, username: str):
+        user = get_object_or_404(User, username=username)
+
+        data = request.data
+
+        # with partial=True, serializer will allow updating only the fields that are provided in the request data
+        serializer = self.serializer_class(instance=user, data=data, partial=True, context={'request': request})
+
+        if serializer.is_valid():
+            serializer.save()
+
+            response = {
+                "message": "Profile Picture Updated Successfully.",
+                "profilePhoto": serializer.data 
+            }
+
+            return Response(data=response, status=status.HTTP_200_OK)
+
+        return Response(data={"error": "Please Select a Photo to Update Your Profile Picture."}, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, username: str):
+        user = get_object_or_404(User, username=username)
+        
+        user.profile_picture = 'profile_pics/default.jpg'
+        user.save()
+
+        serializer = self.serializer_class(instance=user, context={'request': request})
+
+        response = {
+            "profilePhoto": serializer.data 
+        }
+
+        return Response(data=response, status=status.HTTP_200_OK)
 
 
 

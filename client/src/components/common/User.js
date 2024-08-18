@@ -1,18 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import ProfilePictureUpdateDelete from '../../pages/ProfilePictureUpdateDelete';
 
 export default function User(props) {
 
   const { email, fullname, profile_picture, book_count } = props.user
 
+  const [show, setShow] = useState(false);
+
+  const handleProPicUpdateDeleteModalShow = () => {
+    setShow(true)
+  }
 
   return (
-    <Container className="mt-5">
+   <>
+     <Container className="mt-5">
       <Card className='!shadow-sm'>
         <Card.Body className="flex items-center justify-center">
-          <Card.Img src={profile_picture} className="rounded-circle h-32 w-32 object-cover" alt="Profile image" style={{ width: '128px', height: '128px' }} />
+          <Card.Img src={profile_picture} className="rounded-circle h-32 w-32 object-cover" alt="Profile image" style={{ width: '128px', height: '128px' }} 
+            onClick={handleProPicUpdateDeleteModalShow}
+          />
           <div className="ml-8">
             <div className="flex flex-row gap-x-8 my-3">
               <Card.Text><b>{book_count}</b> Posts</Card.Text>
@@ -26,5 +35,8 @@ export default function User(props) {
         </Card.Body>
       </Card>
     </Container>
+
+    <ProfilePictureUpdateDelete show={show} setShow={setShow} user={props.user} setUser={props.setUser} />
+   </>
   );
 }
