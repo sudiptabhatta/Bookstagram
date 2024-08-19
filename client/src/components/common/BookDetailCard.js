@@ -1,19 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Moment from 'react-moment';
 import Image from 'react-bootstrap/Image';
+import BookRating from './BookRating';
 
 export default function BookDetailCard(props) {
-
 
     const { caption, description, book_image, created } = props.bookDetail.data
 
     const { username, profile_picture } = props.bookDetail.data.user
-
-    // const stripHtml = (html) => {
-    //     const doc = new DOMParser().parseFromString(html, 'text/html');
-    //     return doc.body.textContent || "";
-    // };
 
     return (
         <>
@@ -30,6 +25,7 @@ export default function BookDetailCard(props) {
                     <Card.Text>
                         <div dangerouslySetInnerHTML={{ __html: description }} />
                     </Card.Text>
+                    <BookRating bookDetail={props.bookDetail} setBookDetail={props.setBookDetail} />
                 </Card.Body>
                 <Card.Footer>
                     <small className="text-muted">

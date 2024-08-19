@@ -16,7 +16,7 @@ import { RiPagesLine } from "react-icons/ri";
 
 export default function BookDetailModal({ bookDetailShow, setBookDetailShow, book_id, setUser }) {
 
-    const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', new_book_image: null, created: '' }, bookphoto_comment: [], bookphoto_rating: [] });
+    const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', new_book_image: null, created: '' }, bookphoto_comment: [], bookphoto_rating: {rating: null}});
 
     const [bookUpdateShow, setBookUpdateShow] = useState(false);
     const [bookDeleteShow, setBookDeleteShow] = useState(false);
@@ -91,7 +91,7 @@ export default function BookDetailModal({ bookDetailShow, setBookDetailShow, boo
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body className='customScrollbar'>
-                    <BookDetailCard bookDetail={bookDetail} />
+                    <BookDetailCard bookDetail={bookDetail} setBookDetail={setBookDetail} />
                     <br />
                     <Comment book_id={bookDetail.data.book_id} comment_data={bookDetail.bookphoto_comment} />
                 </Modal.Body>

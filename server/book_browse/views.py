@@ -66,13 +66,13 @@ class UserBookPhotoRetrieveView(generics.GenericAPIView, mixins.ListModelMixin):
     def get(self, request: Request, book_id: int, *args, **kwargs):
         book_photo = get_object_or_404(Book, pk=book_id)
         comments = BookPhotoComment.objects.filter(book_id=book_photo)
-        rating = Rating.objects.filter(book_id=book_photo)
+        rating = Rating.objects.filter(book_id=book_photo).last()
 
         bookPhotoSerializer = UserBookPhotoDetailSerializer(instance=book_photo, context={"request": 
                       request})
         commentSerializer = CommentSerializer(instance=comments, many=True, context={"request": 
                       request})
-        ratingSerializer = RatingSerializer(instance=rating, many=True)
+        ratingSerializer = RatingSerializer(instance=rating, context={"request": request})
 
         response = {
             "data": bookPhotoSerializer.data,
@@ -215,6 +215,10 @@ class RateBookPhotoView(APIView):
         data = request.data 
 
         serializer = self.serializer_class(data=data)
+
+        if book_photo.user != user:
+            return Response({"detail": "You are not allowed to rate this book."},
+                            status=status.HTTP_403_FORBIDDEN)
 
         if serializer.is_valid():
             serializer.save(rating_user=user, book_id=book_photo)

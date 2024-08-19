@@ -13,7 +13,7 @@ export default function BookDetailPage() {
 
     const params = useParams();
 
-    const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', created: '' }, bookphoto_comment: [], bookphoto_rating: [] })
+    const [bookDetail, setBookDetail] = useState({ data: { user: { username: '', fullname: '', profile_picture: '' }, book_id: 0, caption: '', description: '', book_image: '', created: '' }, bookphoto_comment: [], bookphoto_rating: {rating: null} })
 
     const { toastError } = useToast();
 

@@ -7,6 +7,8 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import Anonymous from './components/common/Anonymous';
 import BookDetailPage from './pages/BookDetailPage';
 import UserSearch from './pages/UserSearch';
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
 
 const Login = lazy(() => import('./pages/Login'));
 const Signup = lazy(() => import('./pages/Signup'));
