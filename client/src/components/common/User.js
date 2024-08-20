@@ -30,7 +30,7 @@ export default function User(props) {
             </div>
             <Card.Title>{fullname}</Card.Title>
             <Card.Text>{email}</Card.Text>
-            <Button className="w-40 !bg-rose-500 !border-none !shadow-md !shadow-rose-300 !rounded-full mb-3" size="sm">Edit Profile</Button>
+            <Button className="w-40 !bg-gray-950 !border-none !shadow-sm !shadow-gray-800 !rounded-full mb-3" size="sm">Edit Profile</Button>
           </div>
         </Card.Body>
       </Card>

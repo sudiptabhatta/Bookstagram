@@ -66,10 +66,10 @@ export default function NavbarLayout(props) {
 
     return (
         <>
-            <Navbar expand="lg" bg="danger" data-bs-theme="light" sticky='top'>
+            <Navbar expand="lg" className="bg-indigo-500" data-bs-theme="light" sticky='top'>
                 <Container>
                     <Navbar.Brand className="text-xl pt-0 font-bold">
-                        <Link to={`/bookbrowse/profile/${loggedinUsername}`} className='no-underline text-red-700'>Bookstagram<span className='text-3xl text-orange-400'>.</span></Link>
+                        <Link to={`/bookbrowse/profile/${loggedinUsername}`} className='no-underline text-indigo-700'>Bookstagram<span className='text-3xl text-orange-400'>.</span></Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -83,7 +83,7 @@ export default function NavbarLayout(props) {
                                     name='searchParam'
                                     value={searchParam} onChange={handleSearchChange}
                                 />
-                                <Button className='!bg-rose-500 !border-none' type='submit' >Search</Button>
+                                <Button className='!bg-indigo-400 !border-none' type='submit' >Search</Button>
                             </Form>
                         </Nav>
                         <NavDropdown title={loggedinUsername} className='text-white font-bold' id="basic-nav-dropdown">

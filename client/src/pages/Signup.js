@@ -47,7 +47,7 @@ export default function Signup() {
             <Row className='w-full max-w-lg'>
                 <Col className="shadow-md p-4 bg-white rounded-lg">
                     <div className="text-center mb-3">
-                        <div className="text-red-500 text-xl font-bold">Bookstagram<span className='text-3xl text-orange-400'>.</span></div>
+                        <div className="text-indigo-500 text-xl font-bold">Bookstagram<span className='text-3xl text-orange-400'>.</span></div>
                     </div>
                     <div className="text-center mb-4">
                         <div className="text-sm font-thin">SHOW OFF YOUR BOOKISH ASTHEICS</div>

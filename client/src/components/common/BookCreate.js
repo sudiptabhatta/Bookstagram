@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { BookUploadService } from '../../services/BookUploadService';
 import useToast from '../../hooks/useToast';
 import Editor from 'react-simple-wysiwyg';
-
+import InputGroup from 'react-bootstrap/InputGroup';
+import { FaSearch } from "react-icons/fa";
+import { GoogleBookSearchService } from '../../services/GoogleBookSearchService';
+import Table from 'react-bootstrap/Table';
 
 export default function BookCreate({ bookUploadShow, setBookUploadShow, user, setUser }) {
 
     const [book, setBook] = useState({ caption: '', description: '', book_image: '' });
 
-    const{ toastSuccess, toastError } = useToast();
+    const [searchedBookName, setSearchedBookName] = useState('');
+    const [searchedBookItems, setSearchBookItems] = useState(null);
+
+    const { toastSuccess, toastError } = useToast();
 
     const handleBookUploadClose = () => {
         setBookUploadShow(false)
@@ -20,10 +26,10 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
     }
 
     const handleChange = (event) => {
-        if(event.target.name === "book_image"){
+        if (event.target.name === "book_image") {
             setBook({ ...book, [event.target.name]: event.target.files[0] })
         }
-        else{
+        else {
             setBook({ ...book, [event.target.name]: event.target.value })
         }
     }
@@ -42,7 +48,7 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
             //     books: [response.data.bookphoto, ...prevUser.books],
             //     book_count: prevUser.book_count + 1 // Increment the book count
             // }));
-            setUser({...user, books: [response.data.bookphoto, ...user.books], book_count: user.book_count + 1})
+            setUser({ ...user, books: [response.data.bookphoto, ...user.books], book_count: user.book_count + 1 })
             handleBookUploadClose();
             setBook({ caption: '', description: '', book_image: '' })
         } catch (error) {
@@ -50,17 +56,75 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
         }
     }
 
+    const handleBookSearchChange = (event) => {
+        setSearchedBookName(event.target.value);
+    }
+
+    const handleBookSearchKeyDown = async (event) => {
+        if (event.key === 'Enter') {
+            // call google books api
+            try {
+                const response = await GoogleBookSearchService(searchedBookName);
+                let bookItems = [];
+                response.data.items.slice(0, 3).map((item) => {
+                    let book = {
+                        bookTitle: item.volumeInfo.title,
+                        author: item.volumeInfo.authors[0],
+                        publishedDate: item.volumeInfo.publishedDate
+                    }
+                    bookItems.push(book)
+                })
+                setSearchBookItems(bookItems)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+
     return (
         <Modal show={bookUploadShow} onHide={handleBookUploadClose} backdrop="static">
             <Modal.Header closeButton>
                 <Modal.Title>Upload Book Photo</Modal.Title>
             </Modal.Header>
-            <Form onSubmit={handleSubmit}>
+            <Form>
                 <Modal.Body>
                     <Form.Group className="mb-3" controlId="caption">
                         <Form.Label className='font-semibold'>Caption</Form.Label>
                         <Form.Control type="text" placeholder="Write a caption..." name='caption' value={book.caption} onChange={handleChange} autoFocus />
                     </Form.Group>
+                    <Form.Group className="mb-3" controlId="search">
+                        <Form.Label className='font-semibold'>Enter Book Name</Form.Label>
+                        <InputGroup>
+                            <Form.Control type="search" placeholder="Search for a book..." name='bookname' value={searchedBookName} onChange={handleBookSearchChange} onKeyDown={handleBookSearchKeyDown} />
+                            <InputGroup.Text>
+                                <FaSearch />
+                            </InputGroup.Text>
+                        </InputGroup>
+                    </Form.Group>
+                    {searchedBookItems && (<>
+                        <h6 className='text-center font-bold'>Suggested from Google Books</h6>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Book Title</th>
+                                    <th>First Author</th>
+                                    <th>Published Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {searchedBookItems.map((item, index) => {
+                                    return (<tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.bookTitle}</td>
+                                        <td>{item.author}</td>
+                                        <td>{item.publishedDate}</td>
+                                    </tr>)
+                                })}
+                            </tbody>
+                        </Table>
+                    </>)}
                     <Form.Group className="mb-3" controlId="description">
                         <Form.Label className='font-semibold'>Description</Form.Label>
                         <Editor name='description' value={book.description} onChange={handleChange} />
@@ -72,7 +136,7 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='!bg-rose-500 !border-none' type='submit'>Post</Button>
+                    <Button variant="dark" onClick={handleSubmit}>Post</Button>
                 </Modal.Footer>
             </Form>
         </Modal>

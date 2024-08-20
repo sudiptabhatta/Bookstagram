@@ -74,7 +74,7 @@ export default function BookUpdate({ bookUpdateShow, setBookUpdateShow, bookDeta
                     </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className='!bg-rose-500 !border-none' type='submit'>Update</Button>
+                    <Button variant="dark" type='submit'>Update</Button>
                 </Modal.Footer>
             </Form>
         </Modal>

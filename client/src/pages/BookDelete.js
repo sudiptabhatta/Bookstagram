@@ -32,7 +32,7 @@ export default function BookDelete({ bookDeleteShow, setBookDeleteShow, book_id,
             </Modal.Header>
             <Modal.Body>Are you sure you want to delete this book photo?</Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleDeletePhoto}>
+                <Button variant="dark" onClick={handleDeletePhoto}>
                     Delete
                 </Button>
             </Modal.Footer>

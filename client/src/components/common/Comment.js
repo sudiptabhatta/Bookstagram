@@ -37,7 +37,7 @@ export default function Comment(props) {
                     <Form.Group className="mb-3" controlId="comment">
                         <Form.Control as="textarea" rows={3} name="comment" placeholder="Write a comment...." value={bookComment.comment_data.comment} onChange={handleCommentChange} />
                     </Form.Group>
-                    <Button className="!bg-rose-500 !border-none" type="submit">Post</Button>
+                    <Button variant="dark" type="submit">Post</Button>
                 </Form>
                 <br />
                 {props.comment_data.map((cc) => {
