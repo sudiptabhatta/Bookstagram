@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
@@ -9,6 +9,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { FaSearch } from "react-icons/fa";
 import { GoogleBookSearchService } from '../../services/GoogleBookSearchService';
 import Table from 'react-bootstrap/Table';
+import { Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function BookCreate({ bookUploadShow, setBookUploadShow, user, setUser }) {
 
@@ -66,24 +68,35 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
             try {
                 const response = await GoogleBookSearchService(searchedBookName);
                 let bookItems = [];
-                response.data.items.slice(0, 3).map((item) => {
+                if (response.data.totalItems === 0) {
+                    toastError("Search did not return any books.")
+                    return;
+                }
+                response.data.items.slice(0, Math.min(3, response.data.totalItems)).map((item) => {
                     let book = {
                         bookTitle: item.volumeInfo.title,
                         author: item.volumeInfo.authors[0],
-                        publishedDate: item.volumeInfo.publishedDate
+                        publishedDate: item.volumeInfo.publishedDate,
+                        previewLink: item.volumeInfo.previewLink
                     }
                     bookItems.push(book)
                 })
                 setSearchBookItems(bookItems)
             } catch (error) {
-                console.log(error)
+                toastError(error)
             }
         }
     }
 
+    const handleSuggestedGbookClick = (index) => {
+        const selectedBook = searchedBookItems[index];
+        let bookAdd = `<p><a href=${selectedBook.previewLink}>${selectedBook.bookTitle} -- ${selectedBook.author} -- ${selectedBook.publishedDate}</a></p>`
+        setBook({ ...book, description: bookAdd })
+    }
+
 
     return (
-        <Modal show={bookUploadShow} onHide={handleBookUploadClose} backdrop="static">
+        <Modal show={bookUploadShow} onHide={handleBookUploadClose} backdrop="static" size='lg'>
             <Modal.Header closeButton>
                 <Modal.Title>Upload Book Photo</Modal.Title>
             </Modal.Header>
@@ -103,27 +116,35 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
                         </InputGroup>
                     </Form.Group>
                     {searchedBookItems && (<>
-                        <h6 className='text-center font-bold'>Suggested from Google Books</h6>
-                        <Table striped>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Book Title</th>
-                                    <th>First Author</th>
-                                    <th>Published Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searchedBookItems.map((item, index) => {
-                                    return (<tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{item.bookTitle}</td>
-                                        <td>{item.author}</td>
-                                        <td>{item.publishedDate}</td>
-                                    </tr>)
-                                })}
-                            </tbody>
-                        </Table>
+                        <Row>
+                            <Col md={2}></Col>
+                            <Col md={8}>
+
+
+                                <h6 className='text-center font-bold'>Suggested from Google Books</h6>
+                                <Table striped>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Book Title</th>
+                                            <th>First Author</th>
+                                            <th>Published Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>a
+                                        {searchedBookItems.map((item, index) => {
+                                            return (<tr key={index} onClick={() => handleSuggestedGbookClick(index)}>
+                                                <td>{index + 1}</td>
+                                                <td>{item.bookTitle}</td>
+                                                <td>{item.author}</td>
+                                                <td>{item.publishedDate}</td>
+                                            </tr>)
+                                        })}
+                                    </tbody>
+                                </Table>
+                            </Col>
+                            <Col md={2}></Col>
+                        </Row>
                     </>)}
                     <Form.Group className="mb-3" controlId="description">
                         <Form.Label className='font-semibold'>Description</Form.Label>
