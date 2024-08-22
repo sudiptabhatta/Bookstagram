@@ -10,4 +10,7 @@ urlpatterns = [
     path('users/', views.UserSearchView.as_view(), name='user-search'),
     path('book/<int:book_id>/comment/', views.Comment.as_view(), name='comment'),
     path('book/<int:book_id>/rate/', views.RateBookPhotoView.as_view(), name='rate-book'),
+    path('follow-unfollow/', views.UserFollowUnfollowView.as_view(), name='user-follow-unfollow'),
+    path('followers/<str:username>/', views.UserFollowerListView.as_view(), name='user-followers'),
+    path('following/<str:username>/', views.UserFollowingListView.as_view(), name='user-following'),
 ]

@@ -41,3 +41,12 @@ class Rating(models.Model):
 
     def __str__(self) -> str:
         return f"{self.rating_user}'s {self.rating} star rating for {self.book_id}"
+
+
+
+class UserFollowerFollowing(models.Model):
+    class Meta:
+        unique_together = (('user1', 'user2'),)
+
+    user1 = models.CharField(max_length=200)
+    user2 = models.CharField(max_length=200)

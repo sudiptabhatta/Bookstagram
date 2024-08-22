@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Book, BookPhotoComment, Rating
+from .models import Book, BookPhotoComment, Rating, UserFollowerFollowing
 from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination
 
@@ -97,3 +97,8 @@ class UserBookPhotoDetailSerializer(serializers.ModelSerializer):
 
 
 
+class UserFollowerFollowingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserFollowerFollowing
+        fields = '__all__'

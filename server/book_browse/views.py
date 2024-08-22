@@ -3,11 +3,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
-from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer, UserSerializer, CommentSerializer, RatingSerializer
+from .serializers import BookSerializer, UserBookPhotosSerializer, UserBookPhotoDetailSerializer, UserSerializer, CommentSerializer, RatingSerializer, UserFollowerFollowingSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from .models import Book, BookPhotoComment, Rating
+from .models import Book, BookPhotoComment, Rating, UserFollowerFollowing
 from django.contrib.auth import get_user_model
 from rest_framework.filters import SearchFilter
 from .permissions import IsOwnerOrReadOnly
@@ -234,6 +234,66 @@ class RateBookPhotoView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_404_NOT_FOUND)
 
 
+class UserFollowUnfollowView(APIView):
+    serializer_class = UserFollowerFollowingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request):
+        data = request.data
+        serializer = self.serializer_class(data=data)
+
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                "data": serializer.data
+            }
+
+            return Response(data=response, status=status.HTTP_200_OK)
+        
+        return Response(data=serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    
+    def delete(self, request: Request):
+        data = request.data
+        follow_record = get_object_or_404(UserFollowerFollowing, user1=data["user1"], user2=data["user2"]) 
+        follow_record.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class UserFollowerListView(generics.GenericAPIView, mixins.ListModelMixin):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request: Request, *args, **kwargs):
+        username = self.kwargs.get('username')
+        records = UserFollowerFollowing.objects.filter(user2=username)
+        usernames = []
+        for d in records:
+            usernames.append(d.user1)
+        users = User.objects.filter(username__in=usernames)
+
+        followerListtSerializer = UserSerializer(instance=users,  many=True, context={"request": 
+                      request}) 
+
+        response = {
+            "data": followerListtSerializer.data
+        }
+        return Response(data=response, status=status.HTTP_200_OK)
+       
+
+class UserFollowingListView(generics.GenericAPIView, mixins.ListModelMixin):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request, *args, **kwargs):
+        username = self.kwargs.get('username')
+        records = UserFollowerFollowing.objects.filter(user1=username)
+        usernames = []
+        for d in records:
+            usernames.append(d.user2)
+        users = User.objects.filter(username__in=usernames)
+
+        followingListtSerializer = UserSerializer(instance=users,  many=True, context={"request": 
+                      request}) 
+
+        response = {
+            "data": followingListtSerializer.data
+        }
+        return Response(data=response, status=status.HTTP_200_OK)
