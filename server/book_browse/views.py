@@ -274,12 +274,13 @@ class UserFollowerListView(generics.GenericAPIView, mixins.ListModelMixin):
                       request}) 
 
         response = {
-            "data": followerListtSerializer.data
+            "data": followerListtSerializer.data,
+            "count": users.count(),
         }
         return Response(data=response, status=status.HTTP_200_OK)
        
 
-class UserFollowingListView(generics.GenericAPIView, mixins.ListModelMixin):
+class UserFollowingListView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request, *args, **kwargs):
@@ -294,6 +295,7 @@ class UserFollowingListView(generics.GenericAPIView, mixins.ListModelMixin):
                       request}) 
 
         response = {
-            "data": followingListtSerializer.data
+            "data": followingListtSerializer.data,
+            "count": users.count(),
         }
         return Response(data=response, status=status.HTTP_200_OK)
