@@ -241,11 +241,13 @@ class UserFollowUnfollowView(APIView):
     def post(self, request: Request):
         data = request.data
         serializer = self.serializer_class(data=data)
-
         if serializer.is_valid():
             serializer.save()
+            user = User.objects.get(username=serializer.data['user1'])
+            userSer = UserSerializer(instance=user, context={"request": request})
+
             response = {
-                "data": serializer.data
+                "data": userSer.data
             }
 
             return Response(data=response, status=status.HTTP_200_OK)

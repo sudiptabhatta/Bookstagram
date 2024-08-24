@@ -1,4 +1,3 @@
-// import axios from '../config/axiosInterceptor';
 import axios from "axios";
 
 export const GoogleBookSearchService = async (searchedBookName) => {

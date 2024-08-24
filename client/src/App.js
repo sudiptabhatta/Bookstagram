@@ -26,12 +26,10 @@ export default function App() {
           <Routes>
             <Route path='/signup' element={<Anonymous><Signup /></Anonymous>} />
             <Route path='/login' element={<Anonymous><Login /></Anonymous>} />
-            <Route>
             <Route path='/bookbrowse/profile/:username' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path='*' element={<ProtectedRoute><Error /></ProtectedRoute>} />
             <Route path='/bookbrowse/b/:book_id' element={<ProtectedRoute><BookDetailPage /></ProtectedRoute>} />
             <Route path='/bookbrowse/users' element={<ProtectedRoute><UserSearch /></ProtectedRoute>} />
-            </Route>
           </Routes>
         </Suspense>
       </BrowserRouter>

@@ -25,8 +25,6 @@ export default function Profile() {
       setLoading(true)
       try {
           const response = await userBooklistProfileService(username, currentPage)
-
-
           if (currentPage === 1) {
             setUser(response)
           } else {
