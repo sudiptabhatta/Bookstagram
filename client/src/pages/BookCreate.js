@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { BookUploadService } from '../../services/BookUploadService';
-import useToast from '../../hooks/useToast';
 import Editor from 'react-simple-wysiwyg';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { FaSearch } from "react-icons/fa";
-import { GoogleBookSearchService } from '../../services/GoogleBookSearchService';
 import Table from 'react-bootstrap/Table';
 import { Row, Col } from 'react-bootstrap';
+import useToast from '../hooks/useToast';
+import { GoogleBookSearchService } from '../services/GoogleBookSearchService';
+import { BookUploadService } from '../services/BookUploadService';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 export default function BookCreate({ bookUploadShow, setBookUploadShow, user, setUser }) {
 
@@ -23,7 +25,8 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
     const handleBookUploadClose = () => {
         setBookUploadShow(false)
         setBook({ caption: '', description: '', book_image: '' })
-
+        setSearchedBookName('')
+        setSearchBookItems(null)
     }
 
     const handleChange = (event) => {
@@ -49,7 +52,12 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
             //     books: [response.data.bookphoto, ...prevUser.books],
             //     book_count: prevUser.book_count + 1 // Increment the book count
             // }));
-            setUser({ ...user, books: [response.data.bookphoto, ...user.books], book_count: user.book_count + 1 })
+            const accessToken = Cookies.get('accessToken')
+            const decoded = jwtDecode(accessToken)
+            
+            if(decoded.username === user.username) {
+                setUser({ ...user, books: [response.data.bookphoto, ...user.books], book_count: user.book_count + 1 })
+            }
             handleBookUploadClose();
             setBook({ caption: '', description: '', book_image: '' })
         } catch (error) {
@@ -66,19 +74,18 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
             // call google books api
             try {
                 const response = await GoogleBookSearchService(searchedBookName);
-                let bookItems = [];
                 if (response.data.totalItems === 0) {
                     toastError("Search did not return any books.")
                     return;
                 }
-                response.data.items.slice(0, Math.min(3, response.data.totalItems)).map((item) => {
+                const bookItems = response.data.items.slice(0, Math.min(3, response.data.totalItems)).map((item) => {
                     let book = {
                         bookTitle: item.volumeInfo.title,
                         author: item.volumeInfo.authors[0],
                         publishedDate: item.volumeInfo.publishedDate,
                         previewLink: item.volumeInfo.previewLink
                     }
-                    bookItems.push(book)
+                    return book
                 })
                 setSearchBookItems(bookItems)
             } catch (error) {
@@ -130,9 +137,9 @@ export default function BookCreate({ bookUploadShow, setBookUploadShow, user, se
                                             <th>Published Date</th>
                                         </tr>
                                     </thead>
-                                    <tbody>a
+                                    <tbody>
                                         {searchedBookItems.map((item, index) => {
-                                            return (<tr key={index} onClick={() => handleSuggestedGbookClick(index)}>
+                                            return (<tr key={index} onClick={() => handleSuggestedGbookClick(index)} className='cursor-pointer'>
                                                 <td>{index + 1}</td>
                                                 <td>{item.bookTitle}</td>
                                                 <td>{item.author}</td>

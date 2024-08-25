@@ -45,7 +45,7 @@ export default function User(props) {
     try {
       const response = await UserFollowService(loggedinUsername, username);
       setFollowerList((prevFollowerList) => {
-        return {...prevFollowerList, data: [...prevFollowerList.data, response.data.data], count: prevFollowerList.count + 1}
+        return { ...prevFollowerList, data: [...prevFollowerList.data, response.data.data], count: prevFollowerList.count + 1 }
       })
       setFollow(true)
     } catch (error) {
@@ -56,10 +56,9 @@ export default function User(props) {
   const handleUnfollowClick = async () => {
     try {
       const response = await UserUnfollowService(loggedinUsername, username);
-      console.log(followerList)
       setFollowerList((prevFollowerList) => {
-        const  filteredFollowerList = prevFollowerList.data.filter((follower) => follower.username !== loggedinUsername)
-        return {...prevFollowerList, data: filteredFollowerList, count: prevFollowerList.count - 1}
+        const filteredFollowerList = prevFollowerList.data.filter((follower) => follower.username !== loggedinUsername)
+        return { ...prevFollowerList, data: filteredFollowerList, count: prevFollowerList.count - 1 }
       })
       setFollow(false)
     } catch (error) {
@@ -69,6 +68,7 @@ export default function User(props) {
 
   const fetchFollowerList = async () => {
     try {
+      setFollow(false)
       const response = await FollowerListService(username);
       const data = response.data.data
       for (let i = 0; i < data.length; i++) {
@@ -102,7 +102,7 @@ export default function User(props) {
   }, [])
 
   useEffect(() => {
-    if(username === ""){
+    if (username === "") {
       return
     }
     setCurrentUser()
@@ -111,8 +111,8 @@ export default function User(props) {
   }, [username])
 
   useEffect(() => {
-    console.log(followerList)
-  }, [followerList])
+    props.sendDataToParentProfile(follow)
+  }, [follow])
 
   return (
     <>

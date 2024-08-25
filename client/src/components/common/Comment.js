@@ -11,7 +11,8 @@ export default function Comment(props) {
 
     const [bookComment, setBookComment] = useState({ comment_user: { id: 0, username: '' }, comment_data: { comment_id: 0, comment: '', created: '' } });
 
-    const { book_id } = props
+    const { book_id } = props.bookDetail.data;
+    const { bookphoto_comment } = props.bookDetail;
 
     const { toastError } = useToast();
 
@@ -25,6 +26,7 @@ export default function Comment(props) {
         try {
             const response = await CommentService(bookComment, book_id);
             setBookComment({ comment_user: { id: 0, username: '' }, comment_data: { comment_id: 0, comment: '', created: '' } })
+            props.setBookDetail({...props.bookDetail, bookphoto_comment: [...props.bookDetail.bookphoto_comment, response.data.comment_data]})
         } catch (error) {
            toastError(error.message)
         }
@@ -40,7 +42,7 @@ export default function Comment(props) {
                     <Button variant="dark" type="submit">Post</Button>
                 </Form>
                 <br />
-                {props.comment_data.map((cc) => {
+                {bookphoto_comment.map((cc) => {
                     return <div key={cc.comment_id}>
                         <Card className='!bg-slate-50 border-0'>
                             <Card.Body>

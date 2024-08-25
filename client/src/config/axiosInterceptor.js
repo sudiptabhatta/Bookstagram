@@ -26,13 +26,13 @@ axiosInstance.interceptors.response.use(
   
         try {
           const refreshToken = Cookies.get('refreshToken');
-          const response = await axiosInstance.post('/auth/jwt/token/refresh/', { refreshToken });
-          const { newAccessToken } = response.data;
-  
-          Cookies.set('accessToken', newAccessToken);
+          const response = await axiosInstance.post('/auth/jwt/token/refresh/', { refresh: refreshToken });
+          // const newAccessToken = response.data.access;
+
+          Cookies.set('accessToken', response.data.access);
   
           // Retry the original request with the new token
-          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          originalRequest.headers.Authorization = `Bearer ${response.data.access}`;
           return axios(originalRequest); // //recall Api with new token
         } catch (error) {
           // Handle refresh token error or redirect to login

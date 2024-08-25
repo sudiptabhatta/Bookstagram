@@ -185,7 +185,7 @@ class Comment(APIView):
         user = self.request.user 
         book_photo = get_object_or_404(Book, pk=book_id)
 
-        serializer = self.serializer_class(data=data)
+        serializer = self.serializer_class(data=data, context={'request': request})
 
         if serializer.is_valid():
             serializer.save(comment_user=user, book_id=book_photo)

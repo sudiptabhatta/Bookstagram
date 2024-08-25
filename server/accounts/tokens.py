@@ -9,6 +9,7 @@ def create_jwt_pair_for_user(user: User):
     access = refresh.access_token
 
     access['username'] = user.username
+    refresh['username'] = user.username
 
     tokens = {
         "access": str(access),

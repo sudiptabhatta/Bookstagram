@@ -40,9 +40,10 @@ export default function BookDetailPage() {
                 <Row>
                     <Col md={3}></Col>
                     <Col md={6}>
-                        <BookDetailCard bookDetail={bookDetail} cardHeader={cardHeader} />
+                        <BookDetailCard bookDetail={bookDetail} setBookDetail={setBookDetail} cardHeader={cardHeader} />
                         <br />
-                        <Comment book_id={bookDetail.data.book_id} comment_data={bookDetail.bookphoto_comment} />
+                        {/* <Comment book_id={bookDetail.data.book_id} comment_data={bookDetail.bookphoto_comment} /> */}
+                        <Comment bookDetail={bookDetail} setBookDetail={setBookDetail} />
                     </Col>
                     <Col md={3}></Col>
                 </Row>

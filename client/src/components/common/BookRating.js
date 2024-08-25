@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Rating } from '@smastrom/react-rating'
 import { BookRatingService } from '../../services/BookRatingService';
 import useToast from '../../hooks/useToast';
@@ -12,6 +12,10 @@ export default function BookRating({ bookDetail, setBookDetail }) {
     const [bookRating, setBookRating] = useState(rating);
 
     const { toastError } = useToast();
+
+    useEffect(() => {
+        setBookRating(rating)
+    }, [rating])
 
     const handleRatingChange = async (selectedValue) => {
 

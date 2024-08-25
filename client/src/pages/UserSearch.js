@@ -45,7 +45,6 @@ export default function UserSearch() {
                                         <div className="flex-grow">
                                             <p className="text-lg font-semibold mb-1">{user.fullname}</p>
                                             <p className="text-sm text-gray-600">{user.username}</p>
-                                            <p className="text-sm text-gray-500">Posted 0 time/s.</p>
                                         </div>
                                         <Button className="!bg-cyan-600 !border-none text-white" size="sm" onClick={() => handleProfileView(user.username)}>
                                             View Profile

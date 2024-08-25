@@ -8,11 +8,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import BookCreate from '../common/BookCreate';
 import { Link } from "react-router-dom";
 import { UserSearchService } from '../../services/UserSearchService';
 import useToast from '../../hooks/useToast';
 import { jwtDecode } from 'jwt-decode';
+import BookCreate from '../../pages/BookCreate';
 
 export default function NavbarLayout(props) {
 
@@ -48,7 +48,7 @@ export default function NavbarLayout(props) {
             const response = await UserSearchService(searchParam);
             setSearchResult(response.data);
             // second one is an object with a state property
-            navigate(`/bookbrowse/users?search=${searchParam}`, { state: { searchResult: response.data } });
+            navigate(`/bookbrowse/users?search=${searchParam}`, { state: { searchResult: response.data  } });
         } catch (error) {
             toastError(error)
         }
