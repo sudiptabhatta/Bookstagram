@@ -96,4 +96,4 @@ Users can follow or unfollow each other at any time. To view another user's book
 
 
 ## Demo
-Demo will be published soon.... :)
+Youtube Link: https://youtu.be/-XFZWVZhqvQ (Recommended to watch in 1.5x speed.)
