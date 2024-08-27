@@ -74,7 +74,7 @@ There are some requirements to develop and deploy the product. Development envir
 To use our web application, users need to be authenticated first. To complete the signup process, users have to provide their credentials: username, full name, email address, and password and confirm password. The system can check if the email address and username are already in use. After successfully signing up, the app will redirect to the login page. Signed-up users can access all our functionalities by logging into the system. Users can log in to the app by entering an email and password. We implemented authentication processing leveraging the JWT (Json Web Token) protocol. Upon logging in, the user is provided with an access token and a refresh token. The access token expires after 10 mins but the refresh token which has a longer expiry time is used to retrieve a new access token. 
 
 ###  Profile View
-Once logged in, users are redirected to their profile page, where they can view their username, email, and personal posts made on the platform. Additionally, users can see their list of followers and followings, as well as visit other users' profiles.
+Once logged in, users are redirected to their profile page, where they can view their username, email, and personal posts made on the platform. Additionally, users can see their list of followers and followings, as well as visit other users' profiles. A default blank picture will be displayed as profile picture initially. However, they can update or delete their profile picture if they want. 
 
 ###   Upload Book
 To upload an image, users also need to select a photo of a book. Providing a caption and description is optional. They can also tag a book if they want.
@@ -96,4 +96,4 @@ Users can follow or unfollow each other at any time. To view another user's book
 
 
 ## Demo
-Youtube Link: https://youtu.be/-XFZWVZhqvQ (Recommended to watch in 1.5x speed.)
+Youtube Link: https://youtu.be/VdSeszGtmS8 (Recommended to watch in 1.5x speed.)
